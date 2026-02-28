@@ -3,9 +3,9 @@
 <head>
   <base target="_top">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-  <link rel="apple-touch-icon" href="https://i.ibb.co/1Cf8JTS/S-4620317.jpg">
-  <link rel="icon" sizes="192x192" href="https://i.ibb.co/1Cf8JTS/S-4620317.jpg">
-  <link rel="shortcut icon" href="https://i.ibb.co/1Cf8JTS/S-4620317.jpg">
+  <link rel="apple-touch-icon" href="https://i.ibb.co/tTTdx5Bz/638500452-2080435859479379-8333577886399654040-n.jpg">
+  <link rel="icon" sizes="192x192" href="https://i.ibb.co/tTTdx5Bz/638500452-2080435859479379-8333577886399654040-n.jpg">
+  <link rel="shortcut icon" href="https://i.ibb.co/tTTdx5Bz/638500452-2080435859479379-8333577886399654040-n.jpg">
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -239,10 +239,10 @@
       >
         {task.status === 'doing' && (
           <div className="absolute inset-0 pointer-events-none z-0">
-            <div className="absolute -bottom-2 -left-3 text-[14px] animate-float-particle-1 drop-shadow-sm">🍊</div>
-            <div className="absolute top-[30%] -left-4 text-[10px] animate-float-particle-3 drop-shadow-sm" style={{ animationDelay: '1.5s' }}>✨</div>
-            <div className="absolute -bottom-2 -right-3 text-[14px] animate-float-particle-2 drop-shadow-sm" style={{ animationDelay: '0.5s' }}>🍊</div>
-            <div className="absolute top-[30%] -right-4 text-[10px] animate-float-particle-1 drop-shadow-sm" style={{ animationDelay: '1.2s' }}>✨</div>
+            <div className="absolute -bottom-2 -left-3 text-[14px] animate-float-particle-1 drop-shadow-sm">🧡</div>
+            <div className="absolute top-[30%] -left-4 text-[10px] animate-float-particle-3 drop-shadow-sm" style={{ animationDelay: '1.5s' }}>💛</div>
+            <div className="absolute -bottom-2 -right-3 text-[14px] animate-float-particle-2 drop-shadow-sm" style={{ animationDelay: '0.5s' }}>🧡</div>
+            <div className="absolute top-[30%] -right-4 text-[10px] animate-float-particle-1 drop-shadow-sm" style={{ animationDelay: '1.2s' }}>💛</div>
           </div>
         )}
         <div className="absolute left-2 top-3 bottom-3 w-1 rounded-full shadow-sm z-10" style={{ backgroundColor: task.channel === 'LINE' ? '#D5EDB5' : task.channel === 'FB' || task.channel === 'FACEBOOK' ? '#C0D5E9' : task.channel === 'IG' ? '#FFD3DE' : COLORS.purpleDeep }}></div>
@@ -251,10 +251,10 @@
             <div className="flex items-center gap-2 min-w-0">
               <span className="font-bold text-base truncate" style={{ color: COLORS.textMain }}>{task.client}</span>
               <span className={`text-[7px] px-1.5 py-0.5 rounded-md font-black uppercase border ${
-                task.channel === 'LINE' ? 'text-[#5a8a30] bg-[#e7f9d4]/50 border-[#b8d394]/40' :
-                task.channel === 'FB' || task.channel === 'FACEBOOK' ? 'text-[#2A5C82] bg-[#6CA9D6]/10 border-[#6CA9D6]/20' :
+                task.channel === 'LINE' ? 'text-[#5a8a30] bg-[#ffffff]/50 border-[#b8d394]/40' :
+                task.channel === 'FB' || task.channel === 'FACEBOOK' ? 'text-[#2A5C82] bg-[#ffffff]/10 border-[#6CA9D6]/20' :
                 task.channel === 'IG' ? 'text-[#A38A30] bg-[#FCF6DE]/50 border-[#D4B856]/30' :
-                task.channel === 'DISCORD' || task.channel === 'Discord' ? 'text-[#7b55a0] bg-[#f3d5f7]/10 border-[#a76eaf]/20' :
+                task.channel === 'DISCORD' || task.channel === 'Discord' ? 'text-[#7b55a0] bg-[#ffffff]/10 border-[#a76eaf]/20' :
                 'bg-orange-50/50 text-orange-300 border-orange-100'
               }`}>{task.channel}</span>
               {task.priority === 'urgent' && <span className="text-[9px] font-bold animate-pulse px-2 py-0.5 rounded-full shadow-sm" style={{ color: COLORS.pinkDeep, backgroundColor: COLORS.buttonBg }}>{'\u{1F525}'} ด่วน</span>}
@@ -866,3 +866,4 @@
   </script>
 </body>
 </html>
+

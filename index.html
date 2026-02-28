@@ -121,12 +121,19 @@
           <div className="absolute left-6 top-1/2 -translate-y-1/2 w-24 h-8 bg-[#E2CEF3]/40 blur-xl rounded-full"></div>
           <div className="flex flex-col justify-center ml-2 relative z-10">
             <div className="flex items-center gap-1">
-              <h1 className="text-2xl font-black italic tracking-tighter flex">
-                {/* ✏️ [แก้ได้] เปลี่ยนชื่อแอปที่นี่ เช่น "MYSHOP".split('') */}
-                {"Nori Design".split('').map((char, index) => (
-                  <span key={index} className="bg-gradient-to-br from-[#9673D2] to-[#CCAAE6] bg-clip-text text-transparent drop-shadow-sm inline-block animate-text-wave" style={{ animationDelay: `${index * 0.1}s` }}>{char}</span>
-                ))}
-              </h1>
+             <h1 className="text-2xl font-black italic tracking-tighter flex">
+  {/* ✏️ [แก้ได้] เปลี่ยนชื่อแอปที่นี่ */}
+  {"Nori Design".split('').map((char, index) => (
+    <span 
+      key={index} 
+      className="bg-gradient-to-br from-[#9673D2] to-[#CCAAE6] bg-clip-text text-transparent drop-shadow-sm inline-block animate-text-wave pb-2 pr-1" 
+      style={{ animationDelay: `${index * 0.1}s` }}
+    >
+      {/* เช็กว่าเป็นเคาะเว้นวรรคไหม ถ้าใช่ให้ใส่รหัสเว้นวรรคแบบไม่ถูกตัดทิ้ง (\u00A0) */}
+      {char === ' ' ? '\u00A0' : char}
+    </span>
+  ))}
+</h1>
               {/* ✏️ [แก้ได้] ปุ่ม Admin/Guest badge — ถ้าไม่ต้องการแสดงให้ลบ <button> นี้ออก */}
               <button onClick={() => isAdmin ? setIsAdmin(false) : setShowAuthModal(true)} className={`px-1.5 py-0.5 ml-1 rounded-full text-[7px] font-black uppercase tracking-widest border shadow-sm transition-all active:scale-95 ${isAdmin ? 'bg-white/60 text-[#9673D2] border-[#CCAAE6]' : 'bg-gray-100/80 text-gray-400 border-gray-200'}`}>
                 {isAdmin ? 'Admin' : 'Guest'}
@@ -1072,6 +1079,7 @@
   </script>
 </body>
 </html>
+
 
 
 

@@ -143,7 +143,7 @@
       return (
         <div onClick={triggerFlowerBounce} className={`backdrop-blur-sm rounded-[28px] p-3 flex flex-col items-center justify-center shadow-lg shadow-[#D4620A]/20 h-full relative overflow-hidden transition-all duration-300 cursor-pointer ${isBouncing ? 'scale-95' : 'hover:scale-[1.02]'}`} style={{ backgroundColor: `${COLORS.cardWhite}cc`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
           <div className="absolute top-2 left-3 text-[8px] font-black uppercase tracking-tighter opacity-70" style={{ color: COLORS.purpleDeep }}>ความสำเร็จวันนี้</div>
-          <div className="relative w-full h-20 flex items-center justify-center mt-2">
+          <div className="relative w-full h-24 flex items-center justify-center mt-2">
             {progress > 0 && (
               <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-1/2 left-1/4 w-1.5 h-1.5 bg-[#D4620A] rounded-full animate-float-particle-1 opacity-60"></div>
@@ -151,45 +151,52 @@
                 <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 bg-[#FAC35E] rounded-full animate-float-particle-3 opacity-60"></div>
               </div>
             )}
-            <svg viewBox="0 0 100 100" className="w-20 h-20 overflow-visible">
+            <svg viewBox="0 0 100 100" className="w-24 h-24 overflow-visible">
+              <defs>
+                {/* สร้างลวดลายขีดตารางแนวทแยง (Crosshatch) สำหรับเกสรเมล็ดทานตะวัน */}
+                <pattern id="seedPattern" x="0" y="0" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                  <line x1="0" y1="0" x2="0" y2="3" stroke="#6D4C41" strokeWidth="0.8" opacity="0.6" />
+                  <line x1="0" y1="0" x2="3" y2="0" stroke="#6D4C41" strokeWidth="0.8" opacity="0.6" />
+                </pattern>
+              </defs>
               <g transform="translate(50, 50)">
                 <g className="animate-breathe">
-                  <g transform={`scale(${bloomScale})`} className="transition-transform duration-1000 cubic-bezier(0.34, 1.56, 0.64, 1)">
+                  {/* ปรับสเกลให้ดอกใหญ่ขึ้นนิดนึง (คูณ 1.15) */}
+                  <g transform={`scale(${bloomScale * 1.15})`} className="transition-transform duration-1000 cubic-bezier(0.34, 1.56, 0.64, 1)">
                     <g transform="translate(-50, -50)">
                       
-                      {/* กลีบดอกทานตะวันแบบอวบนุ่ม (8 กลีบ) สีเหลืองทองนุ่มนวล */}
+                      {/* กลีบดอกทานตะวันอวบๆ (8 กลีบ) สีเหลืองทองนุ่มนวล และยาวขึ้นนิดนึง */}
                       {petals.map((angle, i) => (
                         <path 
                           key={i} 
-                          d="M 50 16 C 58 16, 62 25, 62 36 C 62 47, 58 52, 50 50 C 42 52, 38 47, 38 36 C 38 25, 42 16, 50 16 Z"
+                          d="M 50 12 C 60 12, 65 24, 65 35 C 65 48, 60 54, 50 50 C 40 54, 35 48, 35 35 C 35 24, 40 12, 50 12 Z"
                           fill="#F5D64C" 
                           transform={`rotate(${angle} 50 50)`}
                           className="transition-all duration-700"
                         />
                       ))}
                       
-                      {/* เกสรดอกทานตะวันสีน้ำตาลช็อกโกแลตหน้านุ่ม ขยายขนาดให้หน้ากลม */}
-                      <circle cx="50" cy="50" r="18" fill="#8D6E63" className="transition-all duration-700" />
+                      {/* เกสรดอกทานตะวันสีน้ำตาลช็อกโกแลตหน้านุ่ม ขยายให้ใหญ่ขึ้นอีกนิด (r=20) */}
+                      <circle cx="50" cy="50" r="20" fill="#8D6E63" className="transition-all duration-700" />
                       
-                      {/* จุดเกสรเล็กๆ แบบสุ่มๆ สีกาแฟนม ดูตะมุตะมิ */}
-                      <circle cx="43" cy="42" r="1.2" fill="#BCAAA4" opacity="0.6"/>
-                      <circle cx="58" cy="45" r="1.5" fill="#BCAAA4" opacity="0.7"/>
-                      <circle cx="52" cy="62" r="1.2" fill="#BCAAA4" opacity="0.5"/>
-                      <circle cx="41" cy="55" r="1" fill="#BCAAA4" opacity="0.6"/>
+                      {/* วางลายขีดตารางเมล็ดทานตะวันทับลงไปบนเกสร */}
+                      <circle cx="50" cy="50" r="19" fill="url(#seedPattern)" className="transition-all duration-700" />
 
                       {/* ใบหน้าขี้อ้อนเวลางานเสร็จ 100% */}
                       {isFullBloom && (
                         <g transform="translate(50, 50)" className="animate-fade-in">
-                          {/* ตาจุดกลมโตสีน้ำตาลเข้ม ดูซื่อๆ */}
-                          <circle cx="-5.5" cy="-2.5" r="2.5" fill="#4E342E" />
-                          <circle cx="5.5" cy="-2.5" r="2.5" fill="#4E342E" />
+                          {/* ตาจุดกลมโตสีน้ำตาลเข้ม พร้อมแววตาวิ้งๆ */}
+                          <circle cx="-6.5" cy="-3.5" r="3" fill="#4E342E" />
+                          <circle cx="6.5" cy="-3.5" r="3" fill="#4E342E" />
+                          <circle cx="-7.5" cy="-4.5" r="0.8" fill="#FFF8EE" />
+                          <circle cx="5.5" cy="-4.5" r="0.8" fill="#FFF8EE" />
                           
-                          {/* ปากยิ้มหวานๆ สีน้ำตาลเข้ม */}
-                          <path d="M -2 2 Q 0 4.5 2 2" fill="none" stroke="#4E342E" strokeWidth="1.5" strokeLinecap="round" />
+                          {/* ปากยิ้มกว้างนิดนึง */}
+                          <path d="M -2.5 2 Q 0 5 2.5 2" fill="none" stroke="#4E342E" strokeWidth="1.8" strokeLinecap="round" />
                           
-                          {/* แก้มชมพูพีชแบบเขินอาย ปัดเป็นวงอวบขึ้น */}
-                          <ellipse cx="-7.5" cy="2.5" rx="3" ry="2" fill="#FFCDD2" opacity="0.9"/>
-                          <ellipse cx="7.5" cy="2.5" rx="3" ry="2" fill="#FFCDD2" opacity="0.9"/>
+                          {/* แก้มชมพูพีชแบบเขินอาย */}
+                          <ellipse cx="-9.5" cy="2.5" rx="3.5" ry="2" fill="#FFCDD2" opacity="0.9"/>
+                          <ellipse cx="9.5" cy="2.5" rx="3.5" ry="2" fill="#FFCDD2" opacity="0.9"/>
                         </g>
                       )}
                     </g>
@@ -887,6 +894,7 @@
   </script>
 </body>
 </html>
+
 
 
 

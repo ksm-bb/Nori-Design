@@ -136,10 +136,9 @@
     const ProgressFlower = React.memo(({ progress, todayTasksLength, doneToday, triggerFlowerBounce, isBouncing }) => {
       const bloomScale = Math.max(0.2, progress / 100);
       const isFullBloom = progress === 100 && todayTasksLength > 0;
-      const petals = [0, 72, 144, 216, 288].map(angle => {
-        const rad = (angle * Math.PI) / 180;
-        return { cx: 50 + 15 * Math.sin(rad), cy: 50 - 15 * Math.cos(rad), r: 18 };
-      });
+      
+      // สร้างองศาสำหรับกลีบดอกทานตะวัน (12 กลีบ)
+      const petals = Array.from({ length: 12 }).map((_, i) => i * 30);
 
       return (
         <div onClick={triggerFlowerBounce} className={`backdrop-blur-sm rounded-[28px] p-3 flex flex-col items-center justify-center shadow-lg shadow-[#D4620A]/20 h-full relative overflow-hidden transition-all duration-300 cursor-pointer ${isBouncing ? 'scale-95' : 'hover:scale-[1.02]'}`} style={{ backgroundColor: `${COLORS.cardWhite}cc`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
@@ -157,17 +156,46 @@
                 <g className="animate-breathe">
                   <g transform={`scale(${bloomScale})`} className="transition-transform duration-1000 cubic-bezier(0.34, 1.56, 0.64, 1)">
                     <g transform="translate(-50, -50)">
-                      {petals.map((p, i) => (
-                        <circle key={i} cx={p.cx} cy={p.cy} r={p.r} fill="#F5A623" opacity="0.95" className="transition-all duration-700"/>
+                      
+                      {/* กลีบดอกทานตะวัน (วงนอก) สีเหลืองทอง */}
+                      {petals.map((angle, i) => (
+                        <ellipse 
+                          key={`outer-${i}`} 
+                          cx="50" cy="27" 
+                          rx="6" ry="19" 
+                          fill="#FFC107" 
+                          transform={`rotate(${angle} 50 50)`}
+                          className="transition-all duration-700"
+                        />
                       ))}
-                      <circle cx="50" cy="50" r="14" fill="#FFF8EE" className="transition-all duration-700" />
+                      
+                      {/* กลีบซ้อน (วงใน) สีเหลืองอมส้ม สับหว่างองศากัน */}
+                      {petals.map((angle, i) => (
+                        <ellipse 
+                          key={`inner-${i}`} 
+                          cx="50" cy="31" 
+                          rx="4.5" ry="14" 
+                          fill="#FFA000" 
+                          transform={`rotate(${angle + 15} 50 50)`}
+                          className="transition-all duration-700"
+                        />
+                      ))}
+
+                      {/* เกสรดอกทานตะวันสีน้ำตาลเข้ม */}
+                      <circle cx="50" cy="50" r="16" fill="#5D4037" className="transition-all duration-700" />
+                      {/* เส้นประจำลองเท็กซ์เจอร์ในเกสร */}
+                      <circle cx="50" cy="50" r="13" fill="transparent" stroke="#4E342E" strokeWidth="1.5" strokeDasharray="2 3" className="transition-all duration-700 opacity-80" />
+
+                      {/* ใบหน้าเวลางานเสร็จ 100% */}
                       {isFullBloom && (
                         <g transform="translate(50, 50)" className="animate-fade-in">
-                          <path d="M -5 -1 Q -3 -3 -1 -1" fill="none" stroke="#7A3500" strokeWidth="1.2" strokeLinecap="round" />
-                          <path d="M 1 -1 Q 3 -3 5 -1" fill="none" stroke="#7A3500" strokeWidth="1.2" strokeLinecap="round" />
-                          <path d="M -1.5 2 Q 0 4 1.5 2" fill="none" stroke="#7A3500" strokeWidth="1.2" strokeLinecap="round" />
-                          <ellipse cx="-6" cy="1" rx="1.5" ry="1" fill="#D4620A" opacity="0.6"/>
-                          <ellipse cx="6" cy="1" rx="1.5" ry="1" fill="#D4620A" opacity="0.6"/>
+                          {/* เปลี่ยนเส้นเป็นสีสว่างเพื่อให้เห็นชัดบนเกสรสีเข้ม */}
+                          <path d="M -5 -2 Q -3 -4 -1 -2" fill="none" stroke="#FFF8EE" strokeWidth="1.2" strokeLinecap="round" />
+                          <path d="M 1 -2 Q 3 -4 5 -2" fill="none" stroke="#FFF8EE" strokeWidth="1.2" strokeLinecap="round" />
+                          <path d="M -2 1.5 Q 0 4 2 1.5" fill="none" stroke="#FFF8EE" strokeWidth="1.2" strokeLinecap="round" />
+                          {/* แก้มสีส้มอ่อนๆ */}
+                          <ellipse cx="-6" cy="0.5" rx="1.5" ry="1" fill="#FF8A65" opacity="0.9"/>
+                          <ellipse cx="6" cy="0.5" rx="1.5" ry="1" fill="#FF8A65" opacity="0.9"/>
                         </g>
                       )}
                     </g>
@@ -866,6 +894,7 @@
   </script>
 </body>
 </html>
+
 
 
 

@@ -126,11 +126,10 @@
   {"Nori Design".split('').map((char, index) => (
     <span 
       key={index} 
-      className="bg-gradient-to-br from-[#9673D2] to-[#CCAAE6] bg-clip-text text-transparent drop-shadow-sm inline-block animate-text-wave pb-2 pr-1" 
+      className={`bg-gradient-to-br from-[#9673D2] to-[#CCAAE6] bg-clip-text text-transparent drop-shadow-sm inline-block animate-text-wave pb-2 ${char === ' ' ? 'w-2.5' : 'pr-[1px]'}`} 
       style={{ animationDelay: `${index * 0.1}s` }}
     >
-      {/* เช็กว่าเป็นเคาะเว้นวรรคไหม ถ้าใช่ให้ใส่รหัสเว้นวรรคแบบไม่ถูกตัดทิ้ง (\u00A0) */}
-      {char === ' ' ? '\u00A0' : char}
+      {char}
     </span>
   ))}
 </h1>
@@ -1079,6 +1078,7 @@
   </script>
 </body>
 </html>
+
 
 
 

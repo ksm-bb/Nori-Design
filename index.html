@@ -291,7 +291,7 @@
     // - สถานะข้อความ: แก้ "กำลังทำ", "เสร็จแล้ว", "รอคิว" เป็นข้อความอื่น
     // - อีโมจิ particle รอบการ์ด doing: แก้ 💜 🪻 เป็นอีโมจิอื่น
     const TaskCard = React.memo(({ task, isAdmin, onEdit, onToggleDoing, onToggleStatus }) => (
-      <div onClick={() => isAdmin && onEdit(task)} className={`relative mb-2 rounded-[22px] p-3 transition-all border shadow-sm group backdrop-blur-sm ${isAdmin ? 'active:scale-[0.97] cursor-pointer' : ''} bg-white/90`} 
+      <div onClick={() => isAdmin && onEdit(task)} className={`relative mb-2 rounded-[22px] p-3 transition-all border shadow-sm group backdrop-blur-sm ${isAdmin ? 'active:scale-[0.97] cursor-pointer' : ''}`} 
         style={{ 
   backgroundColor: task.status === 'done' ? COLORS.cardBgDone : task.status === 'doing' ? COLORS.cardBg : COLORS.cardBg,
   borderColor: task.status === 'doing' ? COLORS.orangeDeep : (task.status === 'done' ? 'transparent' : COLORS.white), 
@@ -1085,6 +1085,7 @@
   </script>
 </body>
 </html>
+
 
 
 

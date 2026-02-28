@@ -133,7 +133,7 @@
       </div>
     ));
 
-    const ProgressFlower = React.memo(({ progress, todayTasksLength, doneToday, triggerFlowerBounce, isBouncing }) => {
+   const ProgressFlower = React.memo(({ progress, todayTasksLength, doneToday, triggerFlowerBounce, isBouncing }) => {
       const bloomScale = Math.max(0.2, progress / 100);
       const isFullBloom = progress === 100 && todayTasksLength > 0;
       
@@ -206,7 +206,8 @@
             </svg>
           </div>
           <div className="mt-1 flex items-center gap-1 px-2 py-0.5 rounded-full z-10" style={{ backgroundColor: `${COLORS.buttonBg}99`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
-            <span className="text-xs font-black" style={{ color: COLORS.purpleDeep }}>{progress}%</span>
+            {/* ปรับขนาดตัวเลขตรงนี้เป็น text-[10px] */}
+            <span className="text-[10px] font-black" style={{ color: COLORS.purpleDeep }}>{progress}%</span>
             <div className="w-1 h-1 rounded-full bg-[#F5A623]"></div>
             <span className="text-[8px] font-bold text-orange-300 uppercase">{doneToday} / {todayTasksLength} งาน</span>
           </div>
@@ -256,7 +257,7 @@
     ));
 
     const TaskCard = React.memo(({ task, isAdmin, onEdit, onToggleDoing, onToggleStatus }) => (
-      <div onClick={() => isAdmin && onEdit(task)} className={`relative mb-2 rounded-[22px] p-3 transition-all shadow-sm group backdrop-blur-sm ${isAdmin ? 'active:scale-[0.97] cursor-pointer' : ''}`}
+      <div onClick={() => isAdmin && onEdit(task)} className={`relative rounded-[22px] p-3 transition-all shadow-sm group backdrop-blur-sm ${isAdmin ? 'active:scale-[0.97] cursor-pointer' : ''}`}
         style={{
           backgroundColor: task.status === 'done' ? COLORS.cardBgDone : COLORS.cardBg,
           borderWidth: '1px',
@@ -894,6 +895,7 @@
   </script>
 </body>
 </html>
+
 
 
 

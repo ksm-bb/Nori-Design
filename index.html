@@ -58,7 +58,7 @@
       purple: '#FCF6DE',     // สี blob พื้นหลัง (กลาง)
       orange: '#E2CEF3',     // สีพื้น NEXT QUEUE section
       bg: '#f1eeff',         // ⭐ สีพื้นหลังทั้งเพจ
-      white: '#E2CEF3',      // สีใช้แทน white ใน border บางจุด
+      white: '#ffe8be',      // สีใช้แทน white ใน border บางจุด
       textMain: '#9673D2',   // ⭐ สีหลักของข้อความและปุ่มหลัก (ม่วง)
       textSoft: '#A788DC',   // สีข้อความรอง
       pinkDeep: '#9673D2',   // สี accent เข้ม (ปุ่ม, badge)
@@ -123,7 +123,7 @@
             <div className="flex items-center gap-1">
               <h1 className="text-2xl font-black italic tracking-tighter flex">
                 {/* ✏️ [แก้ได้] เปลี่ยนชื่อแอปที่นี่ เช่น "MYSHOP".split('') */}
-                {"องุ่นหวาน".split('').map((char, index) => (
+                {"Nori Design".split('').map((char, index) => (
                   <span key={index} className="bg-gradient-to-br from-[#9673D2] to-[#CCAAE6] bg-clip-text text-transparent drop-shadow-sm inline-block animate-text-wave" style={{ animationDelay: `${index * 0.1}s` }}>{char}</span>
                 ))}
               </h1>
@@ -499,7 +499,7 @@
       // ==========================================
       // ✏️ [แก้ได้] เปลี่ยน document.title เป็นชื่อแท็บที่ต้องการ
       useEffect(() => {
-        document.title = "LILAC CHECK Q"; // ✏️ ชื่อ tab บน browser
+        document.title = "Nori Design"; // ✏️ ชื่อ tab บน browser
         
         fetch(WEB_APP_URL + "?action=getInitialData")
           .then(res => res.json())
@@ -1072,6 +1072,7 @@
   </script>
 </body>
 </html>
+
 
 
 

@@ -137,8 +137,8 @@
       const bloomScale = Math.max(0.2, progress / 100);
       const isFullBloom = progress === 100 && todayTasksLength > 0;
       
-      // สร้างองศาสำหรับกลีบดอกทานตะวัน (12 กลีบ)
-      const petals = Array.from({ length: 12 }).map((_, i) => i * 30);
+      // สร้างองศาสำหรับกลีบดอกทานตะวันอวบๆ 8 กลีบ
+      const petals = Array.from({ length: 8 }).map((_, i) => i * 45);
 
       return (
         <div onClick={triggerFlowerBounce} className={`backdrop-blur-sm rounded-[28px] p-3 flex flex-col items-center justify-center shadow-lg shadow-[#D4620A]/20 h-full relative overflow-hidden transition-all duration-300 cursor-pointer ${isBouncing ? 'scale-95' : 'hover:scale-[1.02]'}`} style={{ backgroundColor: `${COLORS.cardWhite}cc`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
@@ -157,45 +157,39 @@
                   <g transform={`scale(${bloomScale})`} className="transition-transform duration-1000 cubic-bezier(0.34, 1.56, 0.64, 1)">
                     <g transform="translate(-50, -50)">
                       
-                      {/* กลีบดอกทานตะวัน (วงนอก) สีเหลืองทอง */}
+                      {/* กลีบดอกทานตะวันแบบอวบนุ่ม (8 กลีบ) สีเหลืองทองนุ่มนวล */}
                       {petals.map((angle, i) => (
-                        <ellipse 
-                          key={`outer-${i}`} 
-                          cx="50" cy="27" 
-                          rx="6" ry="19" 
-                          fill="#FFC107" 
+                        <path 
+                          key={i} 
+                          d="M 50 16 C 58 16, 62 25, 62 36 C 62 47, 58 52, 50 50 C 42 52, 38 47, 38 36 C 38 25, 42 16, 50 16 Z"
+                          fill="#F5D64C" 
                           transform={`rotate(${angle} 50 50)`}
                           className="transition-all duration-700"
                         />
                       ))}
                       
-                      {/* กลีบซ้อน (วงใน) สีเหลืองอมส้ม สับหว่างองศากัน */}
-                      {petals.map((angle, i) => (
-                        <ellipse 
-                          key={`inner-${i}`} 
-                          cx="50" cy="31" 
-                          rx="4.5" ry="14" 
-                          fill="#FFA000" 
-                          transform={`rotate(${angle + 15} 50 50)`}
-                          className="transition-all duration-700"
-                        />
-                      ))}
+                      {/* เกสรดอกทานตะวันสีน้ำตาลช็อกโกแลตหน้านุ่ม ขยายขนาดให้หน้ากลม */}
+                      <circle cx="50" cy="50" r="18" fill="#8D6E63" className="transition-all duration-700" />
+                      
+                      {/* จุดเกสรเล็กๆ แบบสุ่มๆ สีกาแฟนม ดูตะมุตะมิ */}
+                      <circle cx="43" cy="42" r="1.2" fill="#BCAAA4" opacity="0.6"/>
+                      <circle cx="58" cy="45" r="1.5" fill="#BCAAA4" opacity="0.7"/>
+                      <circle cx="52" cy="62" r="1.2" fill="#BCAAA4" opacity="0.5"/>
+                      <circle cx="41" cy="55" r="1" fill="#BCAAA4" opacity="0.6"/>
 
-                      {/* เกสรดอกทานตะวันสีน้ำตาลเข้ม */}
-                      <circle cx="50" cy="50" r="16" fill="#5D4037" className="transition-all duration-700" />
-                      {/* เส้นประจำลองเท็กซ์เจอร์ในเกสร */}
-                      <circle cx="50" cy="50" r="13" fill="transparent" stroke="#4E342E" strokeWidth="1.5" strokeDasharray="2 3" className="transition-all duration-700 opacity-80" />
-
-                      {/* ใบหน้าเวลางานเสร็จ 100% */}
+                      {/* ใบหน้าขี้อ้อนเวลางานเสร็จ 100% */}
                       {isFullBloom && (
                         <g transform="translate(50, 50)" className="animate-fade-in">
-                          {/* เปลี่ยนเส้นเป็นสีสว่างเพื่อให้เห็นชัดบนเกสรสีเข้ม */}
-                          <path d="M -5 -2 Q -3 -4 -1 -2" fill="none" stroke="#FFF8EE" strokeWidth="1.2" strokeLinecap="round" />
-                          <path d="M 1 -2 Q 3 -4 5 -2" fill="none" stroke="#FFF8EE" strokeWidth="1.2" strokeLinecap="round" />
-                          <path d="M -2 1.5 Q 0 4 2 1.5" fill="none" stroke="#FFF8EE" strokeWidth="1.2" strokeLinecap="round" />
-                          {/* แก้มสีส้มอ่อนๆ */}
-                          <ellipse cx="-6" cy="0.5" rx="1.5" ry="1" fill="#FF8A65" opacity="0.9"/>
-                          <ellipse cx="6" cy="0.5" rx="1.5" ry="1" fill="#FF8A65" opacity="0.9"/>
+                          {/* ตาจุดกลมโตสีน้ำตาลเข้ม ดูซื่อๆ */}
+                          <circle cx="-5.5" cy="-2.5" r="2.5" fill="#4E342E" />
+                          <circle cx="5.5" cy="-2.5" r="2.5" fill="#4E342E" />
+                          
+                          {/* ปากยิ้มหวานๆ สีน้ำตาลเข้ม */}
+                          <path d="M -2 2 Q 0 4.5 2 2" fill="none" stroke="#4E342E" strokeWidth="1.5" strokeLinecap="round" />
+                          
+                          {/* แก้มชมพูพีชแบบเขินอาย ปัดเป็นวงอวบขึ้น */}
+                          <ellipse cx="-7.5" cy="2.5" rx="3" ry="2" fill="#FFCDD2" opacity="0.9"/>
+                          <ellipse cx="7.5" cy="2.5" rx="3" ry="2" fill="#FFCDD2" opacity="0.9"/>
                         </g>
                       )}
                     </g>
@@ -212,7 +206,6 @@
         </div>
       );
     });
-
     const CompactStats = React.memo(({ isAdmin, selectedNextDate, nextQueueDate, handleSetManualDate, waitingCount }) => (
       <div className="backdrop-blur-sm rounded-[28px] p-1 shadow-lg shadow-[#D4620A]/20 h-full flex overflow-hidden relative group transition-all" style={{ backgroundColor: `${COLORS.cardWhite}cc`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
         <div className={`flex-1 flex flex-col justify-center items-center p-2 relative rounded-l-[24px] transition-colors overflow-hidden ${isAdmin ? 'hover:bg-orange-50/50 cursor-pointer' : ''}`} style={{ backgroundColor: `${COLORS.orange}66` }}>
@@ -894,6 +887,7 @@
   </script>
 </body>
 </html>
+
 
 
 

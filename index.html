@@ -297,6 +297,7 @@
   borderColor: task.status === 'doing' ? COLORS.orangeDeep : (task.status === 'done' ? 'transparent' : COLORS.white), 
   opacity: task.status === 'done' ? 0.7 : 1 
 }}
+        >
         {task.status === 'doing' && (
            <div className="absolute inset-0 pointer-events-none z-0">
              {/* ✏️ [แก้ได้] อีโมจิ particle ซ้าย-ขวาของการ์ด doing */}
@@ -1084,6 +1085,7 @@
   </script>
 </body>
 </html>
+
 
 
 

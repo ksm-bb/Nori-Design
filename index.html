@@ -3,13 +3,9 @@
 <head>
   <base target="_top">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-  
-  <!-- 🖼️ [แก้ได้] เปลี่ยน favicon / app icon โดยแก้ URL ในทั้ง 3 บรรทัดนี้ -->
   <link rel="apple-touch-icon" href="https://i.ibb.co/1Cf8JTS/S-4620317.jpg">
   <link rel="icon" sizes="192x192" href="https://i.ibb.co/1Cf8JTS/S-4620317.jpg">
   <link rel="shortcut icon" href="https://i.ibb.co/1Cf8JTS/S-4620317.jpg">
-  
-  <!-- ⚙️ [อย่าแก้] React, Babel, Tailwind - library หลักของแอป -->
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -21,11 +17,6 @@
   <script type="text/babel">
     const { useState, useMemo, useEffect, useCallback } = React;
 
-    // ==========================================
-    // 🖼️ COMPONENTS: ไอคอน SVG ทั้งหมดของเว็บ
-    // ==========================================
-    // ✏️ [แก้ได้] ไอคอนแต่ละตัวด้านล่าง สามารถเปลี่ยน SVG path ได้เลย
-    // หรือจะเพิ่มไอคอนใหม่ก็ทำแบบเดียวกัน: const IconXxx = ({size=24, className=""}) => <svg .../>
     const IconPlus = ({size=24, className=""}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>;
     const IconHome = ({size=24, className=""}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>;
     const IconSearch = ({size=24, className=""}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>;
@@ -43,74 +34,44 @@
     const IconTrash = ({size=24, className=""}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>;
 
     // ==========================================
-    // 🎨 ตัวแปรสีหลัก (COLORS Object) — แก้ที่นี่ที่เดียว สีเปลี่ยนทั้งเว็บ!
+    // 🎨 COLORS — Nori Design Orange Tone
     // ==========================================
-    // ✏️ [แก้ได้] เปลี่ยนค่า HEX สี ตามต้องการ
-    // - blue, pink, purple, orange = สีพื้นหลังการ์ดและ section ต่าง ๆ (โทนอ่อน)
-    // - bg = สีพื้นหลังหน้าเว็บทั้งหมด
-    // - white = สีขาวที่ใช้ใน border / background elements
-    // - textMain = สีข้อความหลัก และสีปุ่มหลัก
-    // - textSoft = สีข้อความรอง
-    // - pinkDeep, blueDeep, purpleDeep, orangeDeep = สีเข้มสำหรับข้อความ/ไอคอน accent
-    //
-    // 🎨 สีการ์ดและ UI elements ที่เคยเป็นสีขาวตายตัว — ตอนนี้แก้ได้ที่นี่!
-    // - cardWhite = สีพื้นหลังการ์ดหลัก (Header, ProgressFlower, CompactStats, ฯลฯ)
-    // - cardBorder = สีขอบการ์ด
-    // - cardInner = สีพื้นหลังภายในการ์ด (badge, ปุ่ม, วงกลม, input)
-    // - cloudWhite = สีก้อนเมฆ
-    // - modalBg = สีพื้นหลัง modal
-    // - navBarBg = สีพื้นหลัง Navigation Bar ล่าง
-    // - profileBorder = สีขอบรูปโปรไฟล์
-    // - buttonBg = สีพื้นหลังปุ่มต่าง ๆ (ปุ่ม check, doing, badge)
-    // - dividerColor = สีเส้นแบ่ง
-    // - emptyStateBg = สีพื้นหลังเมื่อไม่มีข้อมูล
-    // - calendarBg = สีพื้นหลังปฏิทิน
-    // - searchInputBg = สีพื้นหลังช่องค้นหา
-    // - filterBarBg = สีพื้นหลังแถบ filter
-    // - bannerOverlayBg = สีพื้นหลังปุ่มบนแบนเนอร์
     const COLORS = {
-      blue: '#E2CEF3',       // สีพื้น section บน
-      pink: '#E2F1F8',       // สี blob พื้นหลัง (top-left)
-      purple: '#FCF6DE',     // สี blob พื้นหลัง (กลาง)
-      orange: '#E2CEF3',     // สีพื้น NEXT QUEUE section
-      bg: '#FDE8B0',         // ⭐ สีพื้นหลังทั้งเพจ
-      white: '#ffe8be',      // สีใช้แทน white ใน border บางจุด
-      textMain: '#9673D2',   // ⭐ สีหลักของข้อความและปุ่มหลัก (ม่วง)
-      textSoft: '#A788DC',   // สีข้อความรอง
-      pinkDeep: '#9673D2',   // สี accent เข้ม (ปุ่ม, badge)
-      blueDeep: '#7D45C6',   // สี accent เข้ม (title, icon)
-      purpleDeep: '#9673D2', // สี accent เข้ม (label, text)
-      orangeDeep: '#A788DC', // สี accent เข้ม (NEXT QUEUE label)
-      cardBg: '#FCDFA0',     // ⭐ สีพื้นหลังการ์ดงาน (todo/doing)
-      cardBgDone: '#FAC35E', // ⭐ สีพื้นหลังการ์ดงาน (done)
+      blue: '#FAD79A',       // blob พื้นหลัง (top-left) — ส้มอ่อนอมทอง
+      pink: '#FBBC6A',       // blob พื้นหลัง (กลาง) — ส้มทอง
+      purple: '#F5A623',     // blob พื้นหลัง (ขวา) — ส้มทอง
+      orange: '#FDE8C0',     // พื้น NEXT QUEUE section — ครีมส้มอ่อน
+      bg: '#FEF0D0',         // ⭐ สีพื้นหลังทั้งเพจ — ครีมอบอุ่น
+      white: '#F5A623',      // border accent — ส้มทอง
+      textMain: '#D4620A',   // ⭐ สีหลักข้อความ/ปุ่ม — ส้มเข้ม
+      textSoft: '#E07B20',   // สีข้อความรอง — ส้มกลาง
+      pinkDeep: '#D4620A',   // accent เข้ม (ปุ่ม, badge) — ส้มเข้ม
+      blueDeep: '#B84E08',   // accent เข้ม (title, icon) — น้ำตาลส้ม
+      purpleDeep: '#D4620A', // accent เข้ม (label) — ส้มเข้ม
+      orangeDeep: '#E07B20', // NEXT QUEUE label — ส้มกลาง
+      cardBg: '#FDDBA0',     // ⭐ การ์ดงาน (todo/doing) — ส้มครีม
+      cardBgDone: '#FAC86A', // ⭐ การ์ดงาน (done) — ส้มทองเข้มขึ้น
 
-      // 🎨 [แก้ได้] สีการ์ดและ UI elements — เปลี่ยนที่นี่ที่เดียว!
-      cardWhite: '#ffffff',       // ⭐ สีพื้นหลังการ์ดหลัก (Header, ProgressFlower, CompactStats)
-      cardBorder: '#ffffff',      // ⭐ สีขอบการ์ดทั่วไป
-      cardInner: '#ffffff',       // ⭐ สีพื้นหลังภายในการ์ด (badge, วงกลม, input, ปุ่มเล็ก)
-      cloudWhite: '#ffffff',      // ⭐ สีก้อนเมฆ
-      modalBg: '#ffffff',         // ⭐ สีพื้นหลัง modal (เพิ่มงาน, login, เปลี่ยนรูป ฯลฯ)
-      navBarBg: '#ffffff',        // ⭐ สีพื้นหลัง Navigation Bar ล่าง
-      profileBorder: '#ffffff',   // ⭐ สีขอบรูปโปรไฟล์
-      buttonBg: '#ffffff',        // ⭐ สีพื้นหลังปุ่มต่าง ๆ (check, doing, badge, tag)
-      dividerColor: '#ffffff',    // ⭐ สีเส้นแบ่ง
-      emptyStateBg: '#ffffff',    // ⭐ สีพื้นหลังเมื่อไม่มีข้อมูล (empty state border)
-      calendarBg: '#ffffff',      // ⭐ สีพื้นหลังปฏิทิน
-      searchInputBg: '#ffffff',   // ⭐ สีพื้นหลังช่องค้นหา
-      filterBarBg: '#ffffff',     // ⭐ สีพื้นหลังแถบ filter
-      bannerOverlayBg: '#ffffff', // ⭐ สีพื้นหลังปุ่มบนแบนเนอร์
+      cardWhite: '#FFFAF0',      // ⭐ พื้นหลังการ์ดหลัก — ขาวครีม
+      cardBorder: '#F5C070',     // ⭐ ขอบการ์ด — ส้มอ่อน
+      cardInner: '#FFF8EE',      // ⭐ พื้นหลังภายในการ์ด — ขาวครีมอบอุ่น
+      cloudWhite: '#FFF4DC',     // ⭐ ก้อนเมฆ — ครีมส้ม
+      modalBg: '#FFFAF2',        // ⭐ พื้นหลัง modal — ขาวส้มอ่อน
+      navBarBg: '#FFF4DC',       // ⭐ Navigation Bar — ครีมส้ม
+      profileBorder: '#F5A623',  // ⭐ ขอบรูปโปรไฟล์ — ส้มทอง
+      buttonBg: '#FFF4DC',       // ⭐ ปุ่มต่าง ๆ — ครีมส้ม
+      dividerColor: '#F5C070',   // ⭐ เส้นแบ่ง — ส้มอ่อน
+      emptyStateBg: '#FFF4DC',   // ⭐ empty state — ครีมส้ม
+      calendarBg: '#FFF8EE',     // ⭐ ปฏิทิน — ขาวครีม
+      searchInputBg: '#FFF8EE',  // ⭐ ช่องค้นหา — ขาวครีม
+      filterBarBg: '#FFF4DC',    // ⭐ แถบ filter — ครีมส้ม
+      bannerOverlayBg: '#FFF4DC',// ⭐ ปุ่มบนแบนเนอร์ — ครีมส้ม
     };
 
-    // ==========================================
-    // ☁️ COMPONENT: FluffyCloud (ก้อนเมฆตกแต่ง)
-    // ==========================================
-    // ✏️ [แก้ได้] ลบ <FluffyCloud .../> ออกจาก DynamicBackground ถ้าไม่ต้องการเมฆ
-    // หรือเพิ่ม/ลด scale และ opacity เพื่อปรับขนาดและความเข้ม
     const FluffyCloud = React.memo(({ top, left, right, bottom, scale = 1, opacity = 0.7, delay = '0s', reverse = false }) => (
       <div className="absolute pointer-events-none drop-shadow-sm z-0" style={{ top, left, right, bottom, opacity, transform: `scale(${scale})` }}>
         <div className={reverse ? 'animate-float-reverse' : 'animate-float'} style={{ animationDelay: delay }}>
           <div className="relative w-40 h-16">
-            {/* ✏️ [แก้ได้] สีก้อนเมฆ — แก้ที่ COLORS.cloudWhite */}
             <div className="absolute bottom-0 left-4 w-32 h-10 rounded-full" style={{ backgroundColor: `${COLORS.cloudWhite}e6` }}></div>
             <div className="absolute bottom-2 left-2 w-14 h-14 rounded-full" style={{ backgroundColor: `${COLORS.cloudWhite}e6` }}></div>
             <div className="absolute bottom-5 left-10 w-16 h-16 rounded-full" style={{ backgroundColor: `${COLORS.cloudWhite}e6` }}></div>
@@ -120,22 +81,11 @@
       </div>
     ));
 
-    // ==========================================
-    // 🌅 COMPONENT: DynamicBackground (พื้นหลังเคลื่อนไหว)
-    // ==========================================
-    // ✏️ [แก้ได้] ปรับ blob สี และตำแหน่งเมฆด้านล่าง
-    // - ลบ <FluffyCloud .../> ถ้าไม่ต้องการก้อนเมฆ
-    // - เปลี่ยน COLORS.pink / COLORS.blue / COLORS.purple ในส่วน blob
-    // - ปรับ opacity / blur เพื่อให้ดูเบาหรือเข้มขึ้น
     const DynamicBackground = React.memo(() => (
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        {/* Blob ซ้ายบน */}
         <div className="absolute top-[10%] left-[-10%] w-72 h-72 rounded-full blur-[90px] opacity-40 animate-float" style={{ backgroundColor: COLORS.pink }}></div>
-        {/* Blob ขวาล่าง */}
         <div className="absolute bottom-[10%] right-[-10%] w-80 h-80 rounded-full blur-[100px] opacity-30 animate-float-reverse" style={{ backgroundColor: COLORS.blue }}></div>
-        {/* Blob กลางขวา */}
         <div className="absolute top-[40%] right-[10%] w-48 h-48 rounded-full blur-[80px] opacity-20 animate-float" style={{ backgroundColor: COLORS.purple }}></div>
-        {/* ก้อนเมฆ — ลบหรือปรับได้ */}
         <FluffyCloud top="8%" left="-5%" scale={1.5} opacity={0.6} delay="0s" />
         <FluffyCloud top="35%" left="-15%" scale={2.5} opacity={0.3} delay="2.5s" />
         <FluffyCloud bottom="20%" left="5%" scale={1.6} opacity={0.6} delay="3s" />
@@ -143,54 +93,39 @@
       </div>
     ));
 
-    // ==========================================
-    // 🔝 COMPONENT: Header (ส่วนหัวเว็บ)
-    // ==========================================
-    // ✏️ [แก้ได้] ในนี้แก้ได้หลายจุด:
-    // - ชื่อแอป: แก้ "LILAC" เป็นชื่ออื่นได้ใน .split('') (ตัวอักษรจะ animate ทีละตัว)
-    // - Tagline: แก้ "Check Q" เป็นข้อความอื่น
-    // - อีโมจิเริ่มต้น: แก้ 🐰 เป็นอีโมจิอื่นเมื่อยังไม่มีรูปโปรไฟล์
     const Header = React.memo(({ isAdmin, setIsAdmin, setShowAuthModal, handleImageUpload, profileImage }) => (
       <div className="px-5 pt-6 pb-2 relative z-10">
-        {/* ✏️ [แก้ได้] สีพื้นหลัง Header card — แก้ที่ COLORS.cardWhite */}
-        <div className="backdrop-blur-md rounded-[32px] p-4 shadow-xl shadow-[#9673D2]/20 flex items-center justify-between h-20 relative overflow-hidden group" style={{ backgroundColor: `${COLORS.cardWhite}66`, borderWidth: '1px', borderColor: `${COLORS.cardBorder}80` }}>
-          <div className="absolute left-6 top-1/2 -translate-y-1/2 w-24 h-8 bg-[#E2CEF3]/40 blur-xl rounded-full"></div>
+        <div className="backdrop-blur-md rounded-[32px] p-4 shadow-xl shadow-[#D4620A]/20 flex items-center justify-between h-20 relative overflow-hidden group" style={{ backgroundColor: `${COLORS.cardWhite}66`, borderWidth: '1px', borderColor: `${COLORS.cardBorder}80` }}>
+          <div className="absolute left-6 top-1/2 -translate-y-1/2 w-24 h-8 bg-[#F5C070]/40 blur-xl rounded-full"></div>
           <div className="flex flex-col justify-center ml-2 relative z-10">
             <div className="flex items-center gap-1">
-             <h1 className="text-2xl font-black italic tracking-tighter flex">
-  {/* ✏️ [แก้ได้] เปลี่ยนชื่อแอปที่นี่ */}
-  {"Nori Design".split('').map((char, index) => (
-    <span 
-      key={index} 
-      className={`bg-gradient-to-br from-[#9673D2] to-[#CCAAE6] bg-clip-text text-transparent drop-shadow-sm inline-block animate-text-wave pb-2 ${char === ' ' ? 'w-2.5' : 'pr-[1.5px]'}`} 
-      style={{ animationDelay: `${index * 0.1}s` }}
-    >
-      {char}
-    </span>
-  ))}
-</h1>
-              {/* ✏️ [แก้ได้] ปุ่ม Admin/Guest badge — ถ้าไม่ต้องการแสดงให้ลบ <button> นี้ออก */}
-              {/* ✏️ [แก้ได้] สีพื้นหลัง badge — แก้ที่ COLORS.buttonBg */}
-              <button onClick={() => isAdmin ? setIsAdmin(false) : setShowAuthModal(true)} className={`px-1.5 py-0.5 ml-1 rounded-full text-[7px] font-black uppercase tracking-widest border shadow-sm transition-all active:scale-95`} style={{ backgroundColor: isAdmin ? `${COLORS.buttonBg}99` : `${COLORS.buttonBg}cc`, color: isAdmin ? '#9673D2' : '#9ca3af', borderColor: isAdmin ? '#CCAAE6' : '#e5e7eb' }}>
+              <h1 className="text-2xl font-black italic tracking-tighter flex">
+                {"Nori Design".split('').map((char, index) => (
+                  <span
+                    key={index}
+                    className={`bg-gradient-to-br from-[#D4620A] to-[#F5A623] bg-clip-text text-transparent drop-shadow-sm inline-block animate-text-wave pb-2 ${char === ' ' ? 'w-2.5' : 'pr-[1.5px]'}`}
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
+                    {char}
+                  </span>
+                ))}
+              </h1>
+              <button onClick={() => isAdmin ? setIsAdmin(false) : setShowAuthModal(true)} className={`px-1.5 py-0.5 ml-1 rounded-full text-[7px] font-black uppercase tracking-widest border shadow-sm transition-all active:scale-95`} style={{ backgroundColor: isAdmin ? `${COLORS.buttonBg}99` : `${COLORS.buttonBg}cc`, color: isAdmin ? '#D4620A' : '#9ca3af', borderColor: isAdmin ? '#F5A623' : '#e5e7eb' }}>
                 {isAdmin ? 'Admin' : 'Guest'}
               </button>
             </div>
             <div className="flex items-center gap-1.5 opacity-70">
               <div className="w-3 h-[1px]" style={{ backgroundColor: COLORS.pinkDeep }}></div>
-              {/* ✏️ [แก้ได้] Tagline ใต้ชื่อแอป */}
               <p className="text-[8px] font-black tracking-[0.5em] uppercase" style={{ color: COLORS.purpleDeep }}>Check Q</p>
             </div>
           </div>
-          {/* รูปโปรไฟล์มุมขวา — Admin กดได้เพื่ออัปโหลดรูป */}
-          {/* ✏️ [แก้ได้] สีขอบและพื้นหลังรูปโปรไฟล์ — แก้ที่ COLORS.profileBorder, COLORS.cardInner */}
           <div onClick={isAdmin ? handleImageUpload : undefined} className={`w-16 h-16 rounded-[1.25rem] flex items-center justify-center relative overflow-hidden transition-transform ${isAdmin ? 'cursor-pointer hover:scale-105 active:scale-95' : ''}`} style={{ backgroundColor: COLORS.cardInner, borderWidth: '2px', borderColor: COLORS.profileBorder }}>
             {profileImage ? (
               <img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
             ) : (
               <>
                 <div className="absolute inset-0 opacity-40" style={{ background: `linear-gradient(to top right, ${COLORS.pink}, ${COLORS.blue})` }}></div>
-                {/* ✏️ [แก้ได้] อีโมจิ default เมื่อยังไม่มีรูปโปรไฟล์ */}
-                <span className="text-2xl relative z-10 select-none">🐰</span>
+                <span className="text-2xl relative z-10 select-none">🍊</span>
               </>
             )}
           </div>
@@ -198,14 +133,6 @@
       </div>
     ));
 
-    // ==========================================
-    // 🌸 COMPONENT: ProgressFlower (ดอกไม้ความคืบหน้า)
-    // ==========================================
-    // ✏️ [แก้ได้] ในนี้แก้ได้:
-    // - ป้ายชื่อ: แก้ "ความสำเร็จวันนี้" เป็นข้อความอื่น
-    // - สีกลีบดอก: แก้ fill="#E2CEF3" เป็นสีอื่น
-    // - สีเกสร: แก้ fill="#fffae7" เป็นสีอื่น
-    // - อีโมจิ particle: แก้ 💜 🪻 เป็นอีโมจิอื่น
     const ProgressFlower = React.memo(({ progress, todayTasksLength, doneToday, triggerFlowerBounce, isBouncing }) => {
       const bloomScale = Math.max(0.2, progress / 100);
       const isFullBloom = progress === 100 && todayTasksLength > 0;
@@ -215,197 +142,153 @@
       });
 
       return (
-        // ✏️ [แก้ได้] สีพื้นหลังการ์ดดอกไม้ — แก้ที่ COLORS.cardWhite, COLORS.cardBorder
-        <div onClick={triggerFlowerBounce} className={`backdrop-blur-sm rounded-[28px] p-3 flex flex-col items-center justify-center shadow-lg shadow-[#9673D2]/20 h-full relative overflow-hidden transition-all duration-300 cursor-pointer ${isBouncing ? 'scale-95' : 'hover:scale-[1.02]'}`} style={{ backgroundColor: `${COLORS.cardWhite}cc`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
-          {/* ✏️ [แก้ได้] ป้ายชื่อบนการ์ด */}
-          <div className="absolute top-2 left-3 text-[8px] font-black text-purpleDeep uppercase tracking-tighter opacity-70" style={{ color: COLORS.purpleDeep }}>ความสำเร็จวันนี้</div>
+        <div onClick={triggerFlowerBounce} className={`backdrop-blur-sm rounded-[28px] p-3 flex flex-col items-center justify-center shadow-lg shadow-[#D4620A]/20 h-full relative overflow-hidden transition-all duration-300 cursor-pointer ${isBouncing ? 'scale-95' : 'hover:scale-[1.02]'}`} style={{ backgroundColor: `${COLORS.cardWhite}cc`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
+          <div className="absolute top-2 left-3 text-[8px] font-black uppercase tracking-tighter opacity-70" style={{ color: COLORS.purpleDeep }}>ความสำเร็จวันนี้</div>
           <div className="relative w-full h-20 flex items-center justify-center mt-2">
             {progress > 0 && (
               <div className="absolute inset-0 pointer-events-none">
-                  {/* ✏️ [แก้ได้] สี particle ที่ลอยออกมาจากดอกไม้ */}
-                  <div className="absolute top-1/2 left-1/4 w-1.5 h-1.5 bg-[#9673D2] rounded-full animate-float-particle-1 opacity-60"></div>
-                  <div className="absolute top-2/3 right-1/4 w-2 h-2 bg-[#7D45C6] rounded-full animate-float-particle-2 opacity-60"></div>
-                  <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 bg-[#CCAAE6] rounded-full animate-float-particle-3 opacity-60"></div>
+                <div className="absolute top-1/2 left-1/4 w-1.5 h-1.5 bg-[#D4620A] rounded-full animate-float-particle-1 opacity-60"></div>
+                <div className="absolute top-2/3 right-1/4 w-2 h-2 bg-[#F5A623] rounded-full animate-float-particle-2 opacity-60"></div>
+                <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 bg-[#FAC35E] rounded-full animate-float-particle-3 opacity-60"></div>
               </div>
             )}
             <svg viewBox="0 0 100 100" className="w-20 h-20 overflow-visible">
               <g transform="translate(50, 50)">
-                  <g className="animate-breathe">
-                    <g transform={`scale(${bloomScale})`} className="transition-transform duration-1000 cubic-bezier(0.34, 1.56, 0.64, 1)">
-                      <g transform="translate(-50, -50)">
-                        {/* ✏️ [แก้ได้] สีกลีบดอก — เปลี่ยน fill="#E2CEF3" */}
-                        {petals.map((p, i) => (
-                          <circle key={i} cx={p.cx} cy={p.cy} r={p.r} fill="#E2CEF3" opacity="0.95" className="transition-all duration-700"/>
-                        ))}
-                        {/* ✏️ [แก้ได้] สีเกสรดอก — เปลี่ยน fill="#fffae7" */}
-                        <circle cx="50" cy="50" r="14" fill="#fffae7" className="transition-all duration-700" />
-                        {/* หน้าสัตว์เมื่อทำครบ 100% */}
-                        {isFullBloom && (
-                          <g transform="translate(50, 50)" className="animate-fade-in">
-                            <path d="M -5 -1 Q -3 -3 -1 -1" fill="none" stroke="#1E3A5F" strokeWidth="1.2" strokeLinecap="round" />
-                            <path d="M 1 -1 Q 3 -3 5 -1" fill="none" stroke="#1E3A5F" strokeWidth="1.2" strokeLinecap="round" />
-                            <path d="M -1.5 2 Q 0 4 1.5 2" fill="none" stroke="#1E3A5F" strokeWidth="1.2" strokeLinecap="round" />
-                            <ellipse cx="-6" cy="1" rx="1.5" ry="1" fill="#9673D2" opacity="0.6"/>
-                            <ellipse cx="6" cy="1" rx="1.5" ry="1" fill="#9673D2" opacity="0.6"/>
-                          </g>
-                        )}
-                      </g>
+                <g className="animate-breathe">
+                  <g transform={`scale(${bloomScale})`} className="transition-transform duration-1000 cubic-bezier(0.34, 1.56, 0.64, 1)">
+                    <g transform="translate(-50, -50)">
+                      {petals.map((p, i) => (
+                        <circle key={i} cx={p.cx} cy={p.cy} r={p.r} fill="#F5A623" opacity="0.95" className="transition-all duration-700"/>
+                      ))}
+                      <circle cx="50" cy="50" r="14" fill="#FFF8EE" className="transition-all duration-700" />
+                      {isFullBloom && (
+                        <g transform="translate(50, 50)" className="animate-fade-in">
+                          <path d="M -5 -1 Q -3 -3 -1 -1" fill="none" stroke="#7A3500" strokeWidth="1.2" strokeLinecap="round" />
+                          <path d="M 1 -1 Q 3 -3 5 -1" fill="none" stroke="#7A3500" strokeWidth="1.2" strokeLinecap="round" />
+                          <path d="M -1.5 2 Q 0 4 1.5 2" fill="none" stroke="#7A3500" strokeWidth="1.2" strokeLinecap="round" />
+                          <ellipse cx="-6" cy="1" rx="1.5" ry="1" fill="#D4620A" opacity="0.6"/>
+                          <ellipse cx="6" cy="1" rx="1.5" ry="1" fill="#D4620A" opacity="0.6"/>
+                        </g>
+                      )}
                     </g>
                   </g>
+                </g>
               </g>
             </svg>
           </div>
-          {/* ✏️ [แก้ได้] ข้อความ "งาน" ด้านล่างดอกไม้ — เปลี่ยนเป็นคำอื่นได้ */}
-          {/* ✏️ [แก้ได้] สีพื้นหลัง badge ด้านล่าง — แก้ที่ COLORS.buttonBg, COLORS.cardBorder */}
           <div className="mt-1 flex items-center gap-1 px-2 py-0.5 rounded-full z-10" style={{ backgroundColor: `${COLORS.buttonBg}99`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
             <span className="text-xs font-black" style={{ color: COLORS.purpleDeep }}>{progress}%</span>
-            <div className="w-1 h-1 rounded-full bg-[#CCAAE6]"></div>
-            <span className="text-[8px] font-bold text-gray-400 uppercase">{doneToday} / {todayTasksLength} งาน</span>
+            <div className="w-1 h-1 rounded-full bg-[#F5A623]"></div>
+            <span className="text-[8px] font-bold text-orange-300 uppercase">{doneToday} / {todayTasksLength} งาน</span>
           </div>
         </div>
       );
     });
 
-    // ==========================================
-    // 📊 COMPONENT: CompactStats (สถิติ Next Queue + จำนวนคิว)
-    // ==========================================
-    // ✏️ [แก้ได้] ในนี้แก้ได้:
-    // - ป้ายชื่อ "NEXT QUEUE" และ "จำนวนคิวก่อนหน้า"
-    // - หน่วย "คิว" ใต้ตัวเลข
     const CompactStats = React.memo(({ isAdmin, selectedNextDate, nextQueueDate, handleSetManualDate, waitingCount }) => (
-      // ✏️ [แก้ได้] สีพื้นหลัง CompactStats card — แก้ที่ COLORS.cardWhite, COLORS.cardBorder
-      <div className="backdrop-blur-sm rounded-[28px] p-1 shadow-lg shadow-[#9673D2]/20 h-full flex overflow-hidden relative group transition-all" style={{ backgroundColor: `${COLORS.cardWhite}cc`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
-          <div className={`flex-1 flex flex-col justify-center items-center p-2 relative rounded-l-[24px] transition-colors overflow-hidden ${isAdmin ? 'hover:bg-white/50 cursor-pointer' : ''}`} style={{ backgroundColor: `${COLORS.orange}66` }}>
-            {isAdmin && (
-              <input type="date" className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10" value={selectedNextDate || nextQueueDate} onChange={(e) => handleSetManualDate(e.target.value)} />
-            )}
-            {/* ✏️ [แก้ได้] ป้าย "NEXT QUEUE" */}
-            {/* ✏️ [แก้ได้] สีพื้นหลัง badge — แก้ที่ COLORS.buttonBg */}
-            <div className="absolute top-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-md text-[7px] font-black shadow-sm border border-[#CCAAE6] uppercase tracking-wider whitespace-nowrap" style={{ color: COLORS.orangeDeep, backgroundColor: COLORS.buttonBg }}>NEXT QUEUE</div>
-            
-            <div className="flex flex-col items-center mt-1 relative z-0 pointer-events-none">
-              <span className="text-3xl font-black leading-none tracking-tighter" style={{ color: COLORS.textMain }}>{new Date(nextQueueDate).getDate()}</span>
-              <span className="text-[8px] font-black opacity-80 uppercase mt-0.5" style={{ color: COLORS.orangeDeep }}>{new Date(nextQueueDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
-            </div>
+      <div className="backdrop-blur-sm rounded-[28px] p-1 shadow-lg shadow-[#D4620A]/20 h-full flex overflow-hidden relative group transition-all" style={{ backgroundColor: `${COLORS.cardWhite}cc`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
+        <div className={`flex-1 flex flex-col justify-center items-center p-2 relative rounded-l-[24px] transition-colors overflow-hidden ${isAdmin ? 'hover:bg-orange-50/50 cursor-pointer' : ''}`} style={{ backgroundColor: `${COLORS.orange}66` }}>
+          {isAdmin && (
+            <input type="date" className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10" value={selectedNextDate || nextQueueDate} onChange={(e) => handleSetManualDate(e.target.value)} />
+          )}
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-md text-[7px] font-black shadow-sm border border-[#F5A623] uppercase tracking-wider whitespace-nowrap" style={{ color: COLORS.orangeDeep, backgroundColor: COLORS.buttonBg }}>NEXT QUEUE</div>
 
-            {isAdmin && selectedNextDate && (
-              <button 
-                onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleSetManualDate(''); }} 
-                className="absolute bottom-1.5 left-1/2 -translate-x-1/2 z-20 px-2.5 py-0.5 rounded-md text-[7px] font-black shadow-sm border border-[#CCAAE6] hover:bg-[#f4f0fc] active:scale-90 transition-all"
-                style={{ color: COLORS.pinkDeep, backgroundColor: COLORS.buttonBg }}
-                title="กลับไปคำนวณวันว่างอัตโนมัติ"
-              >
-                AUTO
-              </button>
-            )}
+          <div className="flex flex-col items-center mt-1 relative z-0 pointer-events-none">
+            <span className="text-3xl font-black leading-none tracking-tighter" style={{ color: COLORS.textMain }}>{new Date(nextQueueDate).getDate()}</span>
+            <span className="text-[8px] font-black opacity-80 uppercase mt-0.5" style={{ color: COLORS.orangeDeep }}>{new Date(nextQueueDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
           </div>
 
-          {/* ✏️ [แก้ได้] สีเส้นแบ่ง — แก้ที่ COLORS.dividerColor */}
-          <div className="my-4 rounded-full" style={{ width: '1px', backgroundColor: `${COLORS.dividerColor}99` }}></div>
-          
-          <div className="flex-1 flex flex-col justify-center items-center p-2 relative">
-            {/* ✏️ [แก้ได้] ป้าย "จำนวนคิวก่อนหน้า" */}
-            {/* ✏️ [แก้ได้] สีพื้นหลัง badge — แก้ที่ COLORS.buttonBg */}
-            <div className="absolute top-2 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-md text-[7px] font-black shadow-sm border border-[#CCAAE6] uppercase tracking-wider whitespace-nowrap z-10" style={{ color: COLORS.blueDeep, backgroundColor: COLORS.buttonBg }}>จำนวนคิวก่อนหน้า</div>
-            
-            <div className="relative mt-5 flex flex-col items-center">
-               <div className="relative">
-                 <div className="absolute inset-0 blur-lg rounded-full opacity-40 scale-125" style={{ backgroundColor: COLORS.blue }}></div>
-                 {/* ✏️ [แก้ได้] สีพื้นหลังและขอบวงกลมตัวเลข — แก้ที่ COLORS.cardInner */}
-                 <div className="w-11 h-11 rounded-full flex flex-col items-center justify-center shadow-[inset_0_2px_8px_rgba(0,0,0,0.02)] relative z-10" style={{ backgroundColor: COLORS.cardInner, borderWidth: '2px', borderColor: COLORS.blue }}>
-                    <span className="text-xl font-black leading-none" style={{ color: COLORS.blueDeep }}>{waitingCount}</span>
-                 </div>
-               </div>
-               {/* ✏️ [แก้ได้] หน่วยข้อความใต้ตัวเลข */}
-               <span className="text-[8px] font-black opacity-60 uppercase mt-1.5 relative z-10" style={{ color: COLORS.blueDeep }}>คิว</span>
+          {isAdmin && selectedNextDate && (
+            <button
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleSetManualDate(''); }}
+              className="absolute bottom-1.5 left-1/2 -translate-x-1/2 z-20 px-2.5 py-0.5 rounded-md text-[7px] font-black shadow-sm border border-[#F5A623] hover:bg-orange-50 active:scale-90 transition-all"
+              style={{ color: COLORS.pinkDeep, backgroundColor: COLORS.buttonBg }}
+            >
+              AUTO
+            </button>
+          )}
+        </div>
+
+        <div className="my-4 rounded-full" style={{ width: '1px', backgroundColor: `${COLORS.dividerColor}99` }}></div>
+
+        <div className="flex-1 flex flex-col justify-center items-center p-2 relative">
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-md text-[7px] font-black shadow-sm border border-[#F5A623] uppercase tracking-wider whitespace-nowrap z-10" style={{ color: COLORS.blueDeep, backgroundColor: COLORS.buttonBg }}>จำนวนคิวก่อนหน้า</div>
+
+          <div className="relative mt-5 flex flex-col items-center">
+            <div className="relative">
+              <div className="absolute inset-0 blur-lg rounded-full opacity-40 scale-125" style={{ backgroundColor: COLORS.blue }}></div>
+              <div className="w-11 h-11 rounded-full flex flex-col items-center justify-center shadow-[inset_0_2px_8px_rgba(0,0,0,0.02)] relative z-10" style={{ backgroundColor: COLORS.cardInner, borderWidth: '2px', borderColor: COLORS.blue }}>
+                <span className="text-xl font-black leading-none" style={{ color: COLORS.blueDeep }}>{waitingCount}</span>
+              </div>
             </div>
+            <span className="text-[8px] font-black opacity-60 uppercase mt-1.5 relative z-10" style={{ color: COLORS.blueDeep }}>คิว</span>
           </div>
+        </div>
       </div>
     ));
 
-    // ==========================================
-    // 🃏 COMPONENT: TaskCard (การ์ดงานแต่ละชิ้น)
-    // ==========================================
-    // ✏️ [แก้ได้] ในนี้แก้ได้:
-    // - สีแถบซ้าย (channel bar): แก้สี hex ใน backgroundColor ของ div class="absolute left-2 top-3..."
-    //   - LINE = '#D5EDB5' (เขียว), FB/FACEBOOK = '#C0D5E9' (ฟ้า), IG = '#FFD3DE' (ชมพู), อื่น ๆ = COLORS.purpleDeep
-    // - สีและข้อความ badge channel: แก้ใน className ของ <span> ที่ครอบ task.channel
-    // - ข้อความ "ด่วน": แก้ "🔥 ด่วน" เป็นข้อความอื่น
-    // - สถานะข้อความ: แก้ "กำลังทำ", "เสร็จแล้ว", "รอคิว" เป็นข้อความอื่น
-    // - อีโมจิ particle รอบการ์ด doing: แก้ 💜 🪻 เป็นอีโมจิอื่น
     const TaskCard = React.memo(({ task, isAdmin, onEdit, onToggleDoing, onToggleStatus }) => (
-      <div onClick={() => isAdmin && onEdit(task)} className={`relative mb-2 rounded-[22px] p-3 transition-all shadow-sm group backdrop-blur-sm ${isAdmin ? 'active:scale-[0.97] cursor-pointer' : ''}`} 
-        style={{ 
-  backgroundColor: task.status === 'done' ? COLORS.cardBgDone : task.status === 'doing' ? COLORS.cardBg : COLORS.cardBg,
-  borderWidth: '1px',
-  borderStyle: 'solid',
-  borderColor: task.status === 'doing' ? COLORS.orangeDeep : (task.status === 'done' ? 'transparent' : COLORS.white), 
-  opacity: task.status === 'done' ? 0.7 : 1 
-}}
-        >
+      <div onClick={() => isAdmin && onEdit(task)} className={`relative mb-2 rounded-[22px] p-3 transition-all shadow-sm group backdrop-blur-sm ${isAdmin ? 'active:scale-[0.97] cursor-pointer' : ''}`}
+        style={{
+          backgroundColor: task.status === 'done' ? COLORS.cardBgDone : COLORS.cardBg,
+          borderWidth: '1px',
+          borderStyle: 'solid',
+          borderColor: task.status === 'doing' ? COLORS.orangeDeep : (task.status === 'done' ? 'transparent' : COLORS.white),
+          opacity: task.status === 'done' ? 0.7 : 1
+        }}
+      >
         {task.status === 'doing' && (
-           <div className="absolute inset-0 pointer-events-none z-0">
-             {/* ✏️ [แก้ได้] อีโมจิ particle ซ้าย-ขวาของการ์ด doing */}
-             <div className="absolute -bottom-2 -left-3 text-[14px] animate-float-particle-1 drop-shadow-sm">💜</div>
-             <div className="absolute top-[30%] -left-4 text-[10px] animate-float-particle-3 drop-shadow-sm" style={{ animationDelay: '1.5s' }}>🪻</div>
-             <div className="absolute -bottom-2 -right-3 text-[14px] animate-float-particle-2 drop-shadow-sm" style={{ animationDelay: '0.5s' }}>💜</div>
-             <div className="absolute top-[30%] -right-4 text-[10px] animate-float-particle-1 drop-shadow-sm" style={{ animationDelay: '1.2s' }}>🪻</div>
-           </div>
+          <div className="absolute inset-0 pointer-events-none z-0">
+            <div className="absolute -bottom-2 -left-3 text-[14px] animate-float-particle-1 drop-shadow-sm">🍊</div>
+            <div className="absolute top-[30%] -left-4 text-[10px] animate-float-particle-3 drop-shadow-sm" style={{ animationDelay: '1.5s' }}>✨</div>
+            <div className="absolute -bottom-2 -right-3 text-[14px] animate-float-particle-2 drop-shadow-sm" style={{ animationDelay: '0.5s' }}>🍊</div>
+            <div className="absolute top-[30%] -right-4 text-[10px] animate-float-particle-1 drop-shadow-sm" style={{ animationDelay: '1.2s' }}>✨</div>
+          </div>
         )}
-        {/* ✏️ [แก้ได้] แถบสีซ้ายตามช่องทาง — เปลี่ยน hex สีตามชื่อ channel */}
         <div className="absolute left-2 top-3 bottom-3 w-1 rounded-full shadow-sm z-10" style={{ backgroundColor: task.channel === 'LINE' ? '#D5EDB5' : task.channel === 'FB' || task.channel === 'FACEBOOK' ? '#C0D5E9' : task.channel === 'IG' ? '#FFD3DE' : COLORS.purpleDeep }}></div>
         <div className="pl-3 pr-1 relative z-10">
           <div className="flex justify-between items-start mb-1">
             <div className="flex items-center gap-2 min-w-0">
               <span className="font-bold text-base truncate" style={{ color: COLORS.textMain }}>{task.client}</span>
-              {/* ✏️ [แก้ได้] Badge สีตาม channel — เพิ่ม channel ใหม่ได้โดยเพิ่ม case */}
               <span className={`text-[7px] px-1.5 py-0.5 rounded-md font-black uppercase border ${
-                task.channel === 'LINE' ? 'text-[#b8d394] bg-[#e7f9d4]/10 border-[#b8d394]/20' : 
-                task.channel === 'FB' || task.channel === 'FACEBOOK' ? 'text-[#2A5C82] bg-[#6CA9D6]/10 border-[#6CA9D6]/20' : 
-                task.channel === 'IG' ? 'text-[#A38A30] bg-[#FCF6DE]/50 border-[#D4B856]/30' : 
-                task.channel === 'DISCORD' || task.channel === 'Discord' ? 'text-[#a76eaf] bg-[#f3d5f7]/10 border-[#a76eaf]/20' : 
-                'bg-white/50 text-gray-400 border-gray-100'
+                task.channel === 'LINE' ? 'text-[#5a8a30] bg-[#e7f9d4]/50 border-[#b8d394]/40' :
+                task.channel === 'FB' || task.channel === 'FACEBOOK' ? 'text-[#2A5C82] bg-[#6CA9D6]/10 border-[#6CA9D6]/20' :
+                task.channel === 'IG' ? 'text-[#A38A30] bg-[#FCF6DE]/50 border-[#D4B856]/30' :
+                task.channel === 'DISCORD' || task.channel === 'Discord' ? 'text-[#7b55a0] bg-[#f3d5f7]/10 border-[#a76eaf]/20' :
+                'bg-orange-50/50 text-orange-300 border-orange-100'
               }`}>{task.channel}</span>
-              {/* ✏️ [แก้ได้] ข้อความ badge ด่วน — เปลี่ยน "🔥 ด่วน" เป็นอื่น */}
-              {/* ✏️ [แก้ได้] สีพื้นหลัง badge ด่วน — แก้ที่ COLORS.buttonBg */}
               {task.priority === 'urgent' && <span className="text-[9px] font-bold animate-pulse px-2 py-0.5 rounded-full shadow-sm" style={{ color: COLORS.pinkDeep, backgroundColor: COLORS.buttonBg }}>{'\u{1F525}'} ด่วน</span>}
             </div>
-            <div className="flex items-center gap-1 text-[9px] font-black bg-[#f4f0fc]/80 px-2.5 py-0.5 rounded-lg border border-[#CCAAE6] shadow-sm" style={{ color: COLORS.pinkDeep }}>
-                <IconCalendar size={11} style={{ color: COLORS.pinkDeep }} />
-                {new Date(task.deadline).toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit', year: '2-digit' })}
+            <div className="flex items-center gap-1 text-[9px] font-black px-2.5 py-0.5 rounded-lg border shadow-sm" style={{ backgroundColor: '#FFF4DC80', borderColor: '#F5C070', color: COLORS.pinkDeep }}>
+              <IconCalendar size={11} style={{ color: COLORS.pinkDeep }} />
+              {new Date(task.deadline).toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit', year: '2-digit' })}
             </div>
           </div>
-          
+
           <div className="flex justify-between items-end mt-1">
             <div className="flex-1 min-w-0 mr-4 flex flex-col">
-              <span className={`text-[10px] font-bold truncate ${task.status === 'done' ? 'line-through text-gray-300' : 'text-gray-400'}`}>{task.type}</span>
+              <span className={`text-[10px] font-bold truncate ${task.status === 'done' ? 'line-through text-orange-200' : 'text-orange-400'}`}>{task.type}</span>
               {task.details && (
-                <span className={`text-[11px] font-medium truncate mt-0.5 ${task.status === 'done' ? 'text-gray-300' : 'text-gray-600'}`}>{task.details}</span>
+                <span className={`text-[11px] font-medium truncate mt-0.5 ${task.status === 'done' ? 'text-orange-200' : 'text-orange-700'}`}>{task.details}</span>
               )}
             </div>
 
             {isAdmin ? (
               <div className="flex gap-1.5">
-                {/* ปุ่ม "กำลังทำ" (Loader) */}
-                {/* ✏️ [แก้ได้] สีพื้นหลังปุ่ม — แก้ที่ COLORS.buttonBg */}
-                <button onClick={(e) => onToggleDoing(e, task.id)} className={`relative w-[28px] h-[28px] rounded-[8px] flex items-center justify-center transition-all active:scale-90 shadow-[0_3px_10px_rgba(226,206,243,1)]`} style={{ color: task.status === 'doing' ? COLORS.orangeDeep : '#B0BEC5', backgroundColor: task.status === 'doing' ? '#f4f0fc' : COLORS.buttonBg, borderWidth: '2px', borderColor: `${COLORS.cardBorder}cc` }}>
+                <button onClick={(e) => onToggleDoing(e, task.id)} className={`relative w-[28px] h-[28px] rounded-[8px] flex items-center justify-center transition-all active:scale-90 shadow-[0_3px_10px_rgba(245,166,35,0.4)]`} style={{ color: task.status === 'doing' ? COLORS.orangeDeep : '#FBBC6A', backgroundColor: task.status === 'doing' ? '#FFF4DC' : COLORS.buttonBg, borderWidth: '2px', borderColor: `${COLORS.cardBorder}cc` }}>
                   <div className={`${task.status === 'doing' ? 'animate-spin-slow' : ''} flex items-center justify-center`}>
                     <IconLoader size={14} />
                   </div>
                 </button>
-                {/* ปุ่ม "เสร็จแล้ว" (Check) */}
-                {/* ✏️ [แก้ได้] สีพื้นหลังปุ่ม — แก้ที่ COLORS.buttonBg */}
-                <button onClick={(e) => onToggleStatus(e, task.id)} className={`relative w-[28px] h-[28px] rounded-[8px] flex items-center justify-center transition-all active:scale-90 shadow-[0_3px_10px_rgba(226,206,243,1)]`} style={{ color: task.status === 'done' ? COLORS.pinkDeep : '#B0BEC5', backgroundColor: task.status === 'done' ? '#f4f0fc' : COLORS.buttonBg, borderWidth: '2px', borderColor: `${COLORS.cardBorder}cc` }}>
+                <button onClick={(e) => onToggleStatus(e, task.id)} className={`relative w-[28px] h-[28px] rounded-[8px] flex items-center justify-center transition-all active:scale-90 shadow-[0_3px_10px_rgba(245,166,35,0.4)]`} style={{ color: task.status === 'done' ? COLORS.pinkDeep : '#FBBC6A', backgroundColor: task.status === 'done' ? '#FFF4DC' : COLORS.buttonBg, borderWidth: '2px', borderColor: `${COLORS.cardBorder}cc` }}>
                   <IconCheck size={16} />
                 </button>
               </div>
             ) : (
-              // ✏️ [แก้ได้] ข้อความแสดงสถานะสำหรับ Guest
-              // ✏️ [แก้ได้] สีพื้นหลัง badge สถานะ — แก้ที่ COLORS.buttonBg
               <div className="flex items-center">
-                {task.status === 'doing' && <span className="text-[10px] font-bold text-[#A788DC] flex items-center gap-1 bg-[#f4f0fc] px-2 py-1 rounded-md border border-[#CCAAE6] shadow-sm"><IconLoader size={10} className="animate-spin-slow"/> กำลังทำ</span>}
-                {task.status === 'done' && <span className="text-[10px] font-bold text-[#9673D2] flex items-center gap-1 px-2 py-1 rounded-md border border-[#CCAAE6] shadow-sm" style={{ backgroundColor: COLORS.buttonBg }}><IconCheck size={10} /> เสร็จแล้ว</span>}
-                {task.status === 'todo' && <span className="text-[10px] font-bold text-gray-400 flex items-center gap-1 px-2 py-1 rounded-md border border-gray-100 shadow-sm" style={{ backgroundColor: COLORS.buttonBg }}><IconClock size={10} /> รอคิว</span>}
+                {task.status === 'doing' && <span className="text-[10px] font-bold flex items-center gap-1 px-2 py-1 rounded-md border shadow-sm" style={{ color: COLORS.orangeDeep, backgroundColor: '#FFF4DC', borderColor: '#F5C070' }}><IconLoader size={10} className="animate-spin-slow"/> กำลังทำ</span>}
+                {task.status === 'done' && <span className="text-[10px] font-bold flex items-center gap-1 px-2 py-1 rounded-md border shadow-sm" style={{ color: COLORS.pinkDeep, backgroundColor: COLORS.buttonBg, borderColor: '#F5C070' }}><IconCheck size={10} /> เสร็จแล้ว</span>}
+                {task.status === 'todo' && <span className="text-[10px] font-bold text-orange-300 flex items-center gap-1 px-2 py-1 rounded-md border border-orange-100 shadow-sm" style={{ backgroundColor: COLORS.buttonBg }}><IconClock size={10} /> รอคิว</span>}
               </div>
             )}
           </div>
@@ -413,65 +296,59 @@
       </div>
     ));
 
-    // ==========================================
-    // 📅 COMPONENT: CalendarView (ปฏิทิน)
-    // ==========================================
-    // ✏️ [แก้ได้] ชื่อเดือน และชื่อวันใน header ของปฏิทิน
     const CalendarView = React.memo(({ currentMonth, setCurrentMonth, selectedDate, setSelectedDate, today, tasks }) => {
       const year = currentMonth.getFullYear();
       const month = currentMonth.getMonth();
       const daysInMonth = new Date(year, month + 1, 0).getDate();
-      const firstDay = new Date(year, month, 1).getDay(); 
+      const firstDay = new Date(year, month, 1).getDay();
 
       const days = [];
-      for (let i = 0; i < firstDay; i++) days.push(null); 
+      for (let i = 0; i < firstDay; i++) days.push(null);
       for (let i = 1; i <= daysInMonth; i++) days.push(i);
 
-      // ✏️ [แก้ได้] ชื่อเดือนภาษาอังกฤษ — เปลี่ยนเป็นภาษาไทยหรืออื่น ๆ ได้
       const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
       return (
-        // ✏️ [แก้ได้] สีพื้นหลังปฏิทิน — แก้ที่ COLORS.calendarBg, COLORS.cardBorder
-        <div className="backdrop-blur-xl rounded-[32px] p-5 shadow-[0_12px_30px_rgba(226,206,243,0.5)] mb-5 animate-fadeIn" style={{ backgroundColor: `${COLORS.calendarBg}e6`, borderWidth: '4px', borderColor: COLORS.cardBorder }}>
+        <div className="backdrop-blur-xl rounded-[32px] p-5 shadow-[0_12px_30px_rgba(212,98,10,0.2)] mb-5 animate-fadeIn" style={{ backgroundColor: `${COLORS.calendarBg}e6`, borderWidth: '4px', borderColor: COLORS.cardBorder }}>
           <div className="flex justify-between items-center mb-4 px-2">
-            <button onClick={() => setCurrentMonth(new Date(year, month - 1, 1))} className="p-1.5 hover:bg-[#E2CEF3] rounded-full transition-colors text-[#A788DC]"><IconChevronLeft size={20}/></button>
-            <h3 className="font-black text-[16px] text-[#7D45C6] tracking-widest">{monthNames[month]} {year}</h3>
-            <button onClick={() => setCurrentMonth(new Date(year, month + 1, 1))} className="p-1.5 hover:bg-[#E2CEF3] rounded-full transition-colors text-[#A788DC]"><IconChevronRight size={20}/></button>
+            <button onClick={() => setCurrentMonth(new Date(year, month - 1, 1))} className="p-1.5 rounded-full transition-colors" style={{ color: COLORS.textSoft, backgroundColor: '#FFF4DC' }}><IconChevronLeft size={20}/></button>
+            <h3 className="font-black text-[16px] tracking-widest" style={{ color: COLORS.blueDeep }}>{monthNames[month]} {year}</h3>
+            <button onClick={() => setCurrentMonth(new Date(year, month + 1, 1))} className="p-1.5 rounded-full transition-colors" style={{ color: COLORS.textSoft, backgroundColor: '#FFF4DC' }}><IconChevronRight size={20}/></button>
           </div>
-          
-          {/* ✏️ [แก้ได้] ชื่อวันใน header ปฏิทิน — เปลี่ยนเป็นภาษาไทย เช่น ['อา','จ','อ','พ','พฤ','ศ','ส'] */}
+
           <div className="grid grid-cols-7 gap-1 text-center mb-3">
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
-              <div key={d} className="text-[9px] font-black text-[#A788DC] opacity-60 uppercase">{d}</div>
+              <div key={d} className="text-[9px] font-black uppercase opacity-60" style={{ color: COLORS.textSoft }}>{d}</div>
             ))}
           </div>
-          
+
           <div className="grid grid-cols-7 gap-y-3 gap-x-1 text-center">
             {days.map((day, index) => {
               if (!day) return <div key={`empty-${index}`} className="h-10"></div>;
-              
+
               const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
               const isSelected = selectedDate === dateStr;
               const isToday = today === dateStr;
-              const hasTasks = tasks.some(t => t.deadline === dateStr); 
+              const hasTasks = tasks.some(t => t.deadline === dateStr);
 
               return (
                 <div key={dateStr} className="flex justify-center items-center h-10">
-                  <div 
-                    onClick={() => setSelectedDate(dateStr)} 
-                    className={`relative w-10 h-10 flex flex-col items-center justify-center cursor-pointer transition-all ${
-                      isSelected 
-                        ? 'bg-[#9673D2] text-white rounded-full font-black shadow-md scale-105'
-                        : isToday 
-                          ? 'text-[#9673D2] font-black bg-[#E2CEF3] rounded-full'
-                          : 'text-[#A788DC] font-bold hover:bg-[#f4f0fc] hover:shadow-sm rounded-full'
-                    }`}
-                    style={isToday && !isSelected ? { borderWidth: '2px', borderColor: COLORS.cardBorder } : !isSelected ? { borderWidth: '0px' } : {}}
+                  <div
+                    onClick={() => setSelectedDate(dateStr)}
+                    className={`relative w-10 h-10 flex flex-col items-center justify-center cursor-pointer transition-all rounded-full font-bold`}
+                    style={{
+                      backgroundColor: isSelected ? COLORS.textMain : isToday ? '#FDD17A' : 'transparent',
+                      color: isSelected ? '#fff' : isToday ? COLORS.blueDeep : COLORS.textSoft,
+                      fontWeight: isSelected || isToday ? '900' : '700',
+                      transform: isSelected ? 'scale(1.05)' : 'scale(1)',
+                      boxShadow: isSelected ? '0 4px 12px rgba(212,98,10,0.3)' : 'none',
+                      borderWidth: isToday && !isSelected ? '2px' : '0',
+                      borderColor: isToday && !isSelected ? COLORS.cardBorder : 'transparent'
+                    }}
                   >
                     <span className="text-[13px] z-10 leading-none">{day}</span>
-                    {/* จุดแดงบนวันที่มีงาน */}
                     {hasTasks && (
-                      <div className="absolute bottom-1 w-1.5 h-1.5 rounded-full" style={{ backgroundColor: isSelected ? COLORS.white : COLORS.pinkDeep }}></div> 
+                      <div className="absolute bottom-1 w-1.5 h-1.5 rounded-full" style={{ backgroundColor: isSelected ? '#FFF4DC' : COLORS.pinkDeep }}></div>
                     )}
                   </div>
                 </div>
@@ -486,20 +363,11 @@
     // 🏠 MAIN APP COMPONENT
     // ==========================================
     function App() {
-      // ===== STATE: ข้อมูลหลัก =====
       const [tasks, setTasks] = useState([]);
-
-      // ✏️ [แก้ได้] ประเภทงาน default (ถ้า Google Sheets ยังไม่มีข้อมูล)
-      const [taskTypes, setTaskTypes] = useState(['Logo', 'Banner', 'Artwork']); 
-
-      // ✏️ [แก้ได้] ช่องทาง default (ถ้า Google Sheets ยังไม่มีข้อมูล)
-      const [channels, setChannels] = useState(['LINE', 'FB', 'IG']); 
-      
-      // ===== STATE: UI Loading =====
+      const [taskTypes, setTaskTypes] = useState(['Logo', 'Banner', 'Artwork']);
+      const [channels, setChannels] = useState(['LINE', 'FB', 'IG']);
       const [isLoading, setIsLoading] = useState(true);
-      const [isSaving, setIsSaving] = useState(false); 
-      
-      // ===== STATE: Navigation & View =====
+      const [isSaving, setIsSaving] = useState(false);
       const [view, setView] = useState('dashboard');
       const [isCalendarView, setIsCalendarView] = useState(false);
       const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -507,43 +375,28 @@
         const d = new Date();
         return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
       });
-      
-      // ===== STATE: Modal =====
-      const [showModal, setShowModal] = useState(false);     
-      const [editingTask, setEditingTask] = useState(null);  
+      const [showModal, setShowModal] = useState(false);
+      const [editingTask, setEditingTask] = useState(null);
       const [taskToDelete, setTaskToDelete] = useState(null);
-      const [showAuthModal, setShowAuthModal] = useState(false);   
-      const [showImageModal, setShowImageModal] = useState(false); 
-      const [showBannerModal, setShowBannerModal] = useState(false); 
-      
-      // ===== STATE: Search & Filter =====
+      const [showAuthModal, setShowAuthModal] = useState(false);
+      const [showImageModal, setShowImageModal] = useState(false);
+      const [showBannerModal, setShowBannerModal] = useState(false);
       const [searchQuery, setSearchQuery] = useState('');
       const [filterType, setFilterType] = useState('all');
-      
-      // ===== STATE: Admin & Auth =====
       const [isAdmin, setIsAdmin] = useState(false);
       const [password, setPassword] = useState('');
       const [authError, setAuthError] = useState(false);
       const [isVerifyingAuth, setIsVerifyingAuth] = useState(false);
-      
-      // ===== STATE: Images =====
       const [profileImage, setProfileImage] = useState(null);
-      const [tempImageUrl, setTempImageUrl] = useState('');   
-      const [bannerImage, setBannerImage] = useState(null);   
-      const [tempBannerUrl, setTempBannerUrl] = useState(''); 
+      const [tempImageUrl, setTempImageUrl] = useState('');
+      const [bannerImage, setBannerImage] = useState(null);
+      const [tempBannerUrl, setTempBannerUrl] = useState('');
       const [isBannerVisible, setIsBannerVisible] = useState(true);
-      
-      // ===== STATE: Misc =====
-      const [selectedNextDate, setSelectedNextDate] = useState(''); 
-      const [isBouncing, setIsBouncing] = useState(false); 
+      const [selectedNextDate, setSelectedNextDate] = useState('');
+      const [isBouncing, setIsBouncing] = useState(false);
 
-      // ==========================================
-      // 🌐 API: ลิงก์ Google Apps Script Web App
-      // ==========================================
-      // ✏️ [แก้ได้] เปลี่ยน URL ตรงนี้เมื่อ Deploy Google Apps Script ใหม่
       const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx-2OX7kdX_I1nOQnR0ufdt9Z_rfcqXBhTIUoBMhLq8QqWhKT55Z7gfVhgs0V-TB79q/exec";
 
-      // ฟังก์ชันเรียก API (POST) — ไม่ต้องแก้
       const fetchAPI = async (payload) => {
         try {
           const res = await fetch(WEB_APP_URL, {
@@ -558,13 +411,8 @@
         }
       };
 
-      // ==========================================
-      // 🔧 useEffect: โหลดข้อมูลครั้งแรก (GET Request)
-      // ==========================================
-      // ✏️ [แก้ได้] เปลี่ยน document.title เป็นชื่อแท็บที่ต้องการ
       useEffect(() => {
-        document.title = "Nori Design"; // ✏️ ชื่อ tab บน browser
-        
+        document.title = "Nori Design";
         fetch(WEB_APP_URL + "?action=getInitialData")
           .then(res => res.json())
           .then(response => {
@@ -579,157 +427,113 @@
             }
             setIsLoading(false);
           })
-          .catch(error => {
-            console.error("Error loading data:", error);
-            setIsLoading(false);
-          });
+          .catch(error => { console.error("Error loading data:", error); setIsLoading(false); });
       }, []);
 
-      // ==========================================
-      // 🔐 handleAdminLogin: Login Admin
-      // ==========================================
-      // ✏️ [แก้ฝั่ง Google Apps Script] รหัสผ่าน Admin อยู่ใน Google Sheets Script ไม่ใช่ที่นี่
       const handleAdminLogin = (e) => {
         e.preventDefault();
         setIsVerifyingAuth(true);
         setAuthError(false);
-
         fetchAPI({ action: 'verifyAdminPassword', inputPassword: password })
           .then(res => {
             setIsVerifyingAuth(false);
-            if (res.isValid) {
-              setIsAdmin(true); setShowAuthModal(false); setPassword(''); setAuthError(false);
-            } else setAuthError(true);
+            if (res.isValid) { setIsAdmin(true); setShowAuthModal(false); setPassword(''); setAuthError(false); }
+            else setAuthError(true);
           })
           .catch(() => { setIsVerifyingAuth(false); setAuthError(true); });
       };
 
-      // ==========================================
-      // 📅 handleSetManualDate: ล็อค/ปลดล็อควัน NEXT QUEUE
-      // ==========================================
-      // ฟังก์ชันนี้ทำงานเมื่อ Admin เลือกวันที่ใน CompactStats
-      // ส่ง dateVal = '' เพื่อกลับไปโหมด AUTO
       const handleSetManualDate = useCallback((dateVal) => {
         setSelectedNextDate(dateVal);
-        fetchAPI({ action: 'saveLockedNextDate', dateStr: dateVal }); 
+        fetchAPI({ action: 'saveLockedNextDate', dateStr: dateVal });
       }, []);
-      
-      // ===== COMPUTED VALUES (useMemo) =====
+
       const today = useMemo(() => {
         const d = new Date();
         return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-      }, []); 
-      
+      }, []);
+
       const todayTasks = useMemo(() => tasks.filter(t => t.deadline === today), [tasks, today]);
       const doneToday = useMemo(() => todayTasks.filter(t => t.status === 'done').length, [todayTasks]);
       const progress = todayTasks.length === 0 ? 0 : Math.round((doneToday / todayTasks.length) * 100);
 
-      // ✏️ [แก้ได้] ฟังก์ชันคำนวณวัน NEXT QUEUE อัตโนมัติ
-      // ปัจจุบัน: หาวันที่ยังไม่มีงาน ถ้าต้องการเปลี่ยน logic ให้แก้ตรงนี้
       const nextQueueDate = useMemo(() => {
         if (selectedNextDate) return selectedNextDate;
         let checkDate = new Date();
         for (let i = 0; i < 365; i++) {
-          const y = checkDate.getFullYear(); 
-          const m = String(checkDate.getMonth() + 1).padStart(2, '0'); 
-          const d = String(checkDate.getDate()).padStart(2, '0'); 
+          const y = checkDate.getFullYear();
+          const m = String(checkDate.getMonth() + 1).padStart(2, '0');
+          const d = String(checkDate.getDate()).padStart(2, '0');
           const dateStr = `${y}-${m}-${d}`;
-          const tasksOnDate = tasks.filter(t => t.deadline === dateStr);
-          if (tasksOnDate.length === 0) return dateStr;
+          if (tasks.filter(t => t.deadline === dateStr).length === 0) return dateStr;
           checkDate.setDate(checkDate.getDate() + 1);
         }
         return today;
       }, [tasks, selectedNextDate]);
 
-      // จำนวนงานที่ยังไม่เสร็จทั้งหมด
       const waitingCount = useMemo(() => tasks.filter(t => t.status !== 'done').length, [tasks]);
 
-      // ==========================================
-      // 🔄 toggleStatus: สลับสถานะ done ↔ todo (ปุ่ม ✓)
-      // ==========================================
       const toggleStatus = useCallback((e, id) => {
         e.stopPropagation();
-        setTasks(prev => {
-          return prev.map(t => {
-            if (t.id === id) {
-              const newStatus = t.status === 'done' ? 'todo' : 'done';
-              fetchAPI({ action: 'updateTaskStatus', taskId: id, newStatus: newStatus });
-              return { ...t, status: newStatus };
-            }
-            return t;
-          });
-        });
+        setTasks(prev => prev.map(t => {
+          if (t.id === id) {
+            const newStatus = t.status === 'done' ? 'todo' : 'done';
+            fetchAPI({ action: 'updateTaskStatus', taskId: id, newStatus });
+            return { ...t, status: newStatus };
+          }
+          return t;
+        }));
       }, []);
 
-      // ==========================================
-      // 🔄 toggleDoing: สลับสถานะ doing ↔ todo (ปุ่ม Loader)
-      // ==========================================
       const toggleDoing = useCallback((e, id) => {
         e.stopPropagation();
-        setTasks(prev => {
-          return prev.map(t => {
-            if (t.id === id) {
-              const newStatus = t.status === 'doing' ? 'todo' : 'doing';
-              fetchAPI({ action: 'updateTaskStatus', taskId: id, newStatus: newStatus });
-              return { ...t, status: newStatus };
-            }
-            return t;
-          });
-        });
+        setTasks(prev => prev.map(t => {
+          if (t.id === id) {
+            const newStatus = t.status === 'doing' ? 'todo' : 'doing';
+            fetchAPI({ action: 'updateTaskStatus', taskId: id, newStatus });
+            return { ...t, status: newStatus };
+          }
+          return t;
+        }));
       }, []);
 
-      const handleEditTask = useCallback((task) => {
-        setEditingTask(task);
-        setShowModal(true);
-      }, []);
+      const handleEditTask = useCallback((task) => { setEditingTask(task); setShowModal(true); }, []);
 
-      // ==========================================
-      // 💾 handleSaveTask: บันทึก/อัปเดตงาน
-      // ==========================================
-      // ✏️ [แก้ได้] ถ้าต้องการเพิ่ม field ใหม่ในฟอร์ม ให้เพิ่ม formData.get('fieldName') ที่นี่
-      // แล้วเพิ่ม <input name="fieldName"> ในฟอร์มด้านล่างด้วย
       const handleSaveTask = (e) => {
         e.preventDefault();
         setIsSaving(true);
         const formData = new FormData(e.target);
         const taskData = {
           id: editingTask ? editingTask.id : null,
-          title: '', 
+          title: '',
           client: formData.get('client'),
-          type: formData.get('type'), 
+          type: formData.get('type'),
           channel: formData.get('channel'),
-          priority: formData.get('priority') ? 'urgent' : 'normal', 
+          priority: formData.get('priority') ? 'urgent' : 'normal',
           deadline: formData.get('deadline'),
           details: formData.get('details'),
         };
-
         fetchAPI({ action: 'saveOrUpdateTask', task: taskData })
           .then(res => {
-             if (res.status === 'success') {
-                setTasks(prev => editingTask ? prev.map(t => t.id === res.task.id ? res.task : t) : [...prev, res.task]);
-             }
-             setIsSaving(false); setShowModal(false); setEditingTask(null);
+            if (res.status === 'success') {
+              setTasks(prev => editingTask ? prev.map(t => t.id === res.task.id ? res.task : t) : [...prev, res.task]);
+            }
+            setIsSaving(false); setShowModal(false); setEditingTask(null);
           })
           .catch(() => { setIsSaving(false); });
       };
 
-      // ==========================================
-      // 🗑️ executeDeleteTask: ลบงานที่เลือก
-      // ==========================================
       const executeDeleteTask = () => {
         if (!taskToDelete) return;
         setIsSaving(true);
         fetchAPI({ action: 'deleteTask', taskId: taskToDelete })
           .then(() => {
-             setTasks(prev => prev.filter(t => t.id !== taskToDelete));
-             setIsSaving(false); setShowModal(false); setEditingTask(null); setTaskToDelete(null);
+            setTasks(prev => prev.filter(t => t.id !== taskToDelete));
+            setIsSaving(false); setShowModal(false); setEditingTask(null); setTaskToDelete(null);
           })
           .catch(() => { setIsSaving(false); });
       };
 
-      // ==========================================
-      // 👁️ toggleBannerVisibility: แสดง/ซ่อนแบนเนอร์
-      // ==========================================
       const toggleBannerVisibility = (visible) => {
         setIsBannerVisible(visible);
         fetchAPI({ action: 'saveBannerVisibility', isVisible: visible });
@@ -738,95 +542,77 @@
       const triggerFlowerBounce = useCallback(() => { setIsBouncing(true); setTimeout(() => setIsBouncing(false), 500); }, []);
       const handleImageUpload = useCallback(() => { setShowImageModal(true); }, []);
 
-      // ===== กรองงานสำหรับหน้า "ทั้งหมด" =====
-      // ✏️ [แก้ได้] เพิ่ม filter เพิ่มเติมได้ตรงนี้ เช่น filter ตาม channel
       const filteredAllTasks = useMemo(() => tasks.filter(t => {
         const matchSearch = t.type.toLowerCase().includes(searchQuery.toLowerCase()) || t.client.toLowerCase().includes(searchQuery.toLowerCase());
         const matchFilter = filterType === 'all' || (filterType === 'pending' && t.status !== 'done') || (filterType === 'done' && t.status === 'done');
         return matchSearch && matchFilter;
       }), [tasks, searchQuery, filterType]);
 
-      const displayedTasks = isCalendarView 
-        ? filteredAllTasks.filter(t => t.deadline === selectedDate) 
+      const displayedTasks = isCalendarView
+        ? filteredAllTasks.filter(t => t.deadline === selectedDate)
         : filteredAllTasks;
 
-      // ==========================================
-      // 🔄 Loading Screen
-      // ==========================================
-      // ✏️ [แก้ได้] ข้อความ "กำลังโหลดข้อมูล" ในหน้า loading
       if (isLoading) {
         return (
           <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden" style={{ backgroundColor: COLORS.bg }}>
-             <DynamicBackground />
-             <div className="flex flex-col items-center z-10 animate-breathe">
-               {/* ✏️ [แก้ได้] สีพื้นหลัง loading badge — แก้ที่ COLORS.buttonBg, COLORS.cardBorder */}
-               <div className="flex items-center gap-1.5 px-6 py-2.5 backdrop-blur-sm rounded-full shadow-sm" style={{ backgroundColor: `${COLORS.buttonBg}99`, borderWidth: '2px', borderColor: COLORS.cardBorder }}>
-                 {/* ✏️ [แก้ได้] ข้อความ loading */}
-                 <p className="text-[12px] font-black tracking-widest" style={{ color: COLORS.textMain }}>กำลังโหลดข้อมูล</p>
-                 <div className="flex gap-1 pt-1 ml-1">
-                   <span className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ backgroundColor: COLORS.pinkDeep, animationDelay: '0s' }}></span>
-                   <span className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ backgroundColor: COLORS.blueDeep, animationDelay: '0.15s' }}></span>
-                   <span className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ backgroundColor: COLORS.purpleDeep, animationDelay: '0.3s' }}></span>
-                 </div>
-               </div>
-             </div>
+            <DynamicBackground />
+            <div className="flex flex-col items-center z-10 animate-breathe">
+              <div className="flex items-center gap-1.5 px-6 py-2.5 backdrop-blur-sm rounded-full shadow-sm" style={{ backgroundColor: `${COLORS.buttonBg}99`, borderWidth: '2px', borderColor: COLORS.cardBorder }}>
+                <p className="text-[12px] font-black tracking-widest" style={{ color: COLORS.textMain }}>กำลังโหลดข้อมูล</p>
+                <div className="flex gap-1 pt-1 ml-1">
+                  <span className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ backgroundColor: COLORS.pinkDeep, animationDelay: '0s' }}></span>
+                  <span className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ backgroundColor: COLORS.blueDeep, animationDelay: '0.15s' }}></span>
+                  <span className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ backgroundColor: COLORS.purpleDeep, animationDelay: '0.3s' }}></span>
+                </div>
+              </div>
+            </div>
           </div>
         );
       }
 
-      // ==========================================
-      // 🎨 MAIN RENDER
-      // ==========================================
       return (
         <div className="min-h-screen font-sans relative" style={{ backgroundColor: COLORS.bg, color: COLORS.textMain }}>
           <DynamicBackground />
           <div className="max-w-md mx-auto min-h-screen relative pb-28">
             <Header isAdmin={isAdmin} setIsAdmin={setIsAdmin} setShowAuthModal={setShowAuthModal} handleImageUpload={handleImageUpload} profileImage={profileImage} />
-            
-            {/* ===== Banner Section ===== */}
+
+            {/* Banner */}
             <div className="px-5 relative z-10 mb-4">
-               {bannerImage && isBannerVisible && (
-                 // ✏️ [แก้ได้] สีขอบแบนเนอร์ — แก้ที่ COLORS.cardBorder
-                 <div className="relative group w-full h-32 rounded-[24px] overflow-hidden shadow-sm backdrop-blur-sm" style={{ borderWidth: '3px', borderColor: COLORS.cardBorder, backgroundColor: `${COLORS.cardWhite}66` }}>
-                    <img src={bannerImage} alt="Shop Banner" className="w-full h-full object-cover" />
-                    <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                       {isAdmin && (
-                         // ✏️ [แก้ได้] สีพื้นหลังปุ่มบนแบนเนอร์ — แก้ที่ COLORS.bannerOverlayBg
-                         <button onClick={() => setShowBannerModal(true)} className="p-1.5 backdrop-blur-md rounded-full shadow-sm text-gray-500 hover:text-[#9673D2] transition-colors" style={{ backgroundColor: `${COLORS.bannerOverlayBg}e6` }} title="เปลี่ยนแบนเนอร์">
-                            <IconImage size={16} />
-                         </button>
-                       )}
-                       {isAdmin && (
-                         // ✏️ [แก้ได้] สีพื้นหลังปุ่มซ่อนแบนเนอร์ — แก้ที่ COLORS.bannerOverlayBg
-                         <button onClick={() => toggleBannerVisibility(false)} className="p-1.5 backdrop-blur-md rounded-full shadow-sm text-gray-500 hover:text-[#A788DC] transition-colors" style={{ backgroundColor: `${COLORS.bannerOverlayBg}e6` }} title="ซ่อนแบนเนอร์">
-                            <IconEyeOff size={16} />
-                         </button>
-                       )}
-                    </div>
-                 </div>
-               )}
+              {bannerImage && isBannerVisible && (
+                <div className="relative group w-full h-32 rounded-[24px] overflow-hidden shadow-sm backdrop-blur-sm" style={{ borderWidth: '3px', borderColor: COLORS.cardBorder, backgroundColor: `${COLORS.cardWhite}66` }}>
+                  <img src={bannerImage} alt="Shop Banner" className="w-full h-full object-cover" />
+                  <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    {isAdmin && (
+                      <button onClick={() => setShowBannerModal(true)} className="p-1.5 backdrop-blur-md rounded-full shadow-sm transition-colors" style={{ backgroundColor: `${COLORS.bannerOverlayBg}e6`, color: COLORS.textSoft }} title="เปลี่ยนแบนเนอร์">
+                        <IconImage size={16} />
+                      </button>
+                    )}
+                    {isAdmin && (
+                      <button onClick={() => toggleBannerVisibility(false)} className="p-1.5 backdrop-blur-md rounded-full shadow-sm transition-colors" style={{ backgroundColor: `${COLORS.bannerOverlayBg}e6`, color: COLORS.textSoft }} title="ซ่อนแบนเนอร์">
+                        <IconEyeOff size={16} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
 
-               {bannerImage && !isBannerVisible && isAdmin && (
-                 <div className="flex justify-end mb-1">
-                    {/* ✏️ [แก้ได้] สีพื้นหลังปุ่มแสดงแบนเนอร์ — แก้ที่ COLORS.buttonBg, COLORS.cardBorder */}
-                    <button onClick={() => toggleBannerVisibility(true)} className="text-[10px] font-bold flex items-center gap-1 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-sm hover:opacity-80 transition-colors" style={{ color: COLORS.textSoft, backgroundColor: `${COLORS.buttonBg}99`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
-                       <IconEye size={12} /> แสดงแบนเนอร์
-                    </button>
-                 </div>
-               )}
+              {bannerImage && !isBannerVisible && isAdmin && (
+                <div className="flex justify-end mb-1">
+                  <button onClick={() => toggleBannerVisibility(true)} className="text-[10px] font-bold flex items-center gap-1 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-sm hover:opacity-80 transition-colors" style={{ color: COLORS.textSoft, backgroundColor: `${COLORS.buttonBg}99`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
+                    <IconEye size={12} /> แสดงแบนเนอร์
+                  </button>
+                </div>
+              )}
 
-               {!bannerImage && isAdmin && (
-                 // ✏️ [แก้ได้] สีขอบ placeholder แบนเนอร์ — แก้ที่ COLORS.cardBorder, COLORS.cardWhite
-                 <div onClick={() => setShowBannerModal(true)} className="w-full h-16 rounded-[24px] border-[3px] border-dashed backdrop-blur-sm flex items-center justify-center cursor-pointer hover:opacity-80 transition-colors" style={{ borderColor: COLORS.cardBorder, backgroundColor: `${COLORS.cardWhite}66` }}>
-                    {/* ✏️ [แก้ได้] ข้อความปุ่มเพิ่มแบนเนอร์ */}
-                    <span className="text-[11px] font-bold flex items-center gap-2" style={{ color: COLORS.textSoft }}><IconPlus size={16}/> เพิ่มรูปแบนเนอร์ร้าน</span>
-                 </div>
-               )}
+              {!bannerImage && isAdmin && (
+                <div onClick={() => setShowBannerModal(true)} className="w-full h-16 rounded-[24px] border-[3px] border-dashed backdrop-blur-sm flex items-center justify-center cursor-pointer hover:opacity-80 transition-colors" style={{ borderColor: COLORS.cardBorder, backgroundColor: `${COLORS.cardWhite}66` }}>
+                  <span className="text-[11px] font-bold flex items-center gap-2" style={{ color: COLORS.textSoft }}><IconPlus size={16}/> เพิ่มรูปแบนเนอร์ร้าน</span>
+                </div>
+              )}
             </div>
-            
-            {/* ===== Main Content ===== */}
+
+            {/* Main Content */}
             <div className="px-5 relative z-10">
-              {/* ===== VIEW: Dashboard ===== */}
               {view === 'dashboard' ? (
                 <div className="animate-fadeIn">
                   <div className="flex gap-3 h-28 mb-4">
@@ -837,47 +623,33 @@
                       <ProgressFlower progress={progress} todayTasksLength={todayTasks.length} doneToday={doneToday} triggerFlowerBounce={triggerFlowerBounce} isBouncing={isBouncing} />
                     </div>
                   </div>
-                  {/* ✏️ [แก้ได้] ข้อความหัวข้อ "Today's Task" */}
                   <div className="flex items-center justify-between mb-2.5 ml-1">
-                    <h2 className="text-[10px] font-black text-gray-400 italic uppercase tracking-[0.3em] opacity-60">Today's Task</h2>
-                    <div className="h-[1px] flex-1 bg-gradient-to-r from-[#CCAAE6]/40 to-transparent mx-3"></div>
+                    <h2 className="text-[10px] font-black italic uppercase tracking-[0.3em] opacity-60" style={{ color: COLORS.textSoft }}>Today's Task</h2>
+                    <div className="h-[1px] flex-1 mx-3" style={{ background: `linear-gradient(to right, ${COLORS.cardBorder}80, transparent)` }}></div>
                   </div>
                   <div className="space-y-1">
                     {todayTasks.length > 0 ? todayTasks.map(t => <TaskCard key={t.id} task={t} isAdmin={isAdmin} onEdit={handleEditTask} onToggleDoing={toggleDoing} onToggleStatus={toggleStatus} />) : (
-                      // ✏️ [แก้ได้] สีขอบ empty state — แก้ที่ COLORS.emptyStateBg
-                      <div className="text-center py-10 rounded-[28px] border-2 border-dashed" style={{ backgroundColor: `${COLORS.cardWhite}4d`, borderColor: '#9BCBE880' }}>
-                        {/* ✏️ [แก้ได้] ข้อความเมื่อวันนี้ไม่มีงาน */}
+                      <div className="text-center py-10 rounded-[28px] border-2 border-dashed" style={{ backgroundColor: `${COLORS.cardWhite}4d`, borderColor: `${COLORS.cardBorder}80` }}>
                         <p className="text-[9px] font-bold uppercase tracking-widest opacity-40" style={{ color: COLORS.pinkDeep }}>Sky is clear ✨</p>
                       </div>
                     )}
                   </div>
                 </div>
               ) : (
-                /* ===== VIEW: All Tasks ===== */
                 <div className="animate-fadeIn">
-                  {/* ✏️ [แก้ได้] placeholder ช่องค้นหา */}
-                  {/* ✏️ [แก้ได้] สีพื้นหลังช่องค้นหา — แก้ที่ COLORS.searchInputBg */}
                   <div className="relative mb-4">
                     <div className="absolute left-4 top-1/2 -translate-y-1/2 opacity-50" style={{ color: COLORS.blueDeep }}><IconSearch size={16} /></div>
-                    <input type="text" placeholder="ค้นหาคิวงาน..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full rounded-[22px] py-3 pl-10 pr-4 outline-none text-xs shadow-lg shadow-[#9673D2]/10 transition-all backdrop-blur-sm" style={{ backgroundColor: `${COLORS.searchInputBg}cc`, borderWidth: '2px', borderColor: COLORS.blue }} />
-                  </div>
-                  
-                  {/* ✏️ [แก้ได้] ข้อความปุ่ม filter: "ทั้งหมด", "ยังไม่ได้เริ่ม", "เสร็จแล้ว" */}
-                  {/* ✏️ [แก้ได้] สีพื้นหลังแถบ filter — แก้ที่ COLORS.filterBarBg, COLORS.cardBorder */}
-                  <div className="flex gap-2 mb-3 p-1.5 rounded-full backdrop-blur-md shadow-sm" style={{ backgroundColor: `${COLORS.filterBarBg}80`, borderWidth: '3px', borderColor: COLORS.cardBorder }}>
-                      <button onClick={() => setFilterType('all')} className={`flex-1 text-[9px] font-black py-2 rounded-full transition-all tracking-wider ${filterType === 'all' ? 'shadow-sm' : 'text-gray-400'}`} style={{ color: filterType === 'all' ? COLORS.pinkDeep : '', backgroundColor: filterType === 'all' ? COLORS.buttonBg : 'transparent' }}>ทั้งหมด</button>
-                      <button onClick={() => setFilterType('pending')} className={`flex-1 text-[9px] font-black py-2 rounded-full transition-all tracking-wider ${filterType === 'pending' ? 'shadow-sm' : 'text-gray-400'}`} style={{ color: filterType === 'pending' ? COLORS.orangeDeep : '', backgroundColor: filterType === 'pending' ? COLORS.buttonBg : 'transparent' }}>ยังไม่ได้เริ่ม</button>
-                      <button onClick={() => setFilterType('done')} className={`flex-1 text-[9px] font-black py-2 rounded-full transition-all tracking-wider ${filterType === 'done' ? 'shadow-sm' : 'text-gray-400'}`} style={{ color: filterType === 'done' ? COLORS.blueDeep : '', backgroundColor: filterType === 'done' ? COLORS.buttonBg : 'transparent' }}>เสร็จแล้ว</button>
+                    <input type="text" placeholder="ค้นหาคิวงาน..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full rounded-[22px] py-3 pl-10 pr-4 outline-none text-xs shadow-lg backdrop-blur-sm" style={{ backgroundColor: `${COLORS.searchInputBg}cc`, borderWidth: '2px', borderColor: COLORS.cardBorder, color: COLORS.textMain }} />
                   </div>
 
-                  {/* ✏️ [แก้ได้] ข้อความปุ่มสลับ calendar/list */}
-                  {/* ✏️ [แก้ได้] สีพื้นหลังปุ่มสลับ — แก้ที่ COLORS.buttonBg, COLORS.cardBorder */}
+                  <div className="flex gap-2 mb-3 p-1.5 rounded-full backdrop-blur-md shadow-sm" style={{ backgroundColor: `${COLORS.filterBarBg}80`, borderWidth: '3px', borderColor: COLORS.cardBorder }}>
+                    <button onClick={() => setFilterType('all')} className={`flex-1 text-[9px] font-black py-2 rounded-full transition-all tracking-wider`} style={{ color: filterType === 'all' ? COLORS.pinkDeep : '#c9a06a', backgroundColor: filterType === 'all' ? COLORS.buttonBg : 'transparent' }}>ทั้งหมด</button>
+                    <button onClick={() => setFilterType('pending')} className={`flex-1 text-[9px] font-black py-2 rounded-full transition-all tracking-wider`} style={{ color: filterType === 'pending' ? COLORS.orangeDeep : '#c9a06a', backgroundColor: filterType === 'pending' ? COLORS.buttonBg : 'transparent' }}>ยังไม่ได้เริ่ม</button>
+                    <button onClick={() => setFilterType('done')} className={`flex-1 text-[9px] font-black py-2 rounded-full transition-all tracking-wider`} style={{ color: filterType === 'done' ? COLORS.blueDeep : '#c9a06a', backgroundColor: filterType === 'done' ? COLORS.buttonBg : 'transparent' }}>เสร็จแล้ว</button>
+                  </div>
+
                   <div className="flex justify-end mb-4 pr-1">
-                    <button onClick={() => { 
-                      const newView = !isCalendarView;
-                      setIsCalendarView(newView); 
-                      if(newView) setFilterType('all'); 
-                    }} className="flex items-center gap-1.5 px-3 py-1.5 backdrop-blur-md rounded-full shadow-[0_4px_10px_rgba(226,206,243,0.5)] text-[9px] font-black uppercase tracking-widest hover:text-[#9673D2] transition-all active:scale-95" style={{ color: COLORS.textSoft, backgroundColor: `${COLORS.buttonBg}cc`, borderWidth: '2px', borderColor: COLORS.cardBorder }}>
+                    <button onClick={() => { const newView = !isCalendarView; setIsCalendarView(newView); if(newView) setFilterType('all'); }} className="flex items-center gap-1.5 px-3 py-1.5 backdrop-blur-md rounded-full shadow-sm text-[9px] font-black uppercase tracking-widest transition-all active:scale-95" style={{ color: COLORS.textSoft, backgroundColor: `${COLORS.buttonBg}cc`, borderWidth: '2px', borderColor: COLORS.cardBorder }}>
                       {isCalendarView ? <><IconList size={14} /> รูปแบบรายการ</> : <><IconCalendar size={14} /> รูปแบบปฏิทิน</>}
                     </button>
                   </div>
@@ -886,9 +658,7 @@
 
                   <div className="space-y-1">
                     {displayedTasks.length > 0 ? displayedTasks.map(t => <TaskCard key={t.id} task={t} isAdmin={isAdmin} onEdit={handleEditTask} onToggleDoing={toggleDoing} onToggleStatus={toggleStatus} />) : (
-                      // ✏️ [แก้ได้] สีขอบ empty state — แก้ที่ COLORS.emptyStateBg, COLORS.cardBorder
                       <div className="text-center py-10 rounded-[28px] border-[4px] border-dashed shadow-sm mt-4" style={{ backgroundColor: `${COLORS.cardWhite}4d`, borderColor: COLORS.cardBorder }}>
-                        {/* ✏️ [แก้ได้] ข้อความเมื่อหาไม่เจองาน */}
                         <p className="text-[10px] font-black uppercase tracking-widest opacity-60" style={{ color: COLORS.textSoft }}>
                           {isCalendarView ? "วันนี้คิวว่าง ✨" : "No records found ✨"}
                         </p>
@@ -899,234 +669,170 @@
               )}
             </div>
 
-            {/* ===== Bottom Navigation Bar ===== */}
-            {/* ✏️ [แก้ได้] ไอคอน Navigation Bar ล่าง — เปลี่ยน <IconHome> <IconFileText> เป็น icon อื่นได้ */}
-            {/* ✏️ [แก้ได้] สีพื้นหลัง Navigation Bar — แก้ที่ COLORS.navBarBg, COLORS.cardBorder */}
+            {/* Bottom Navigation Bar */}
             <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-[210px] z-50">
-              <div className="backdrop-blur-xl rounded-full h-14 shadow-2xl shadow-[#9673D2]/30 flex items-center justify-between px-6 relative" style={{ backgroundColor: `${COLORS.navBarBg}99`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
-                  {/* ไอคอน Home */}
-                  <button onClick={() => setView('dashboard')} className={`p-1 transition-all ${view === 'dashboard' ? 'scale-110' : 'text-gray-300 opacity-60'}`} style={{ color: view === 'dashboard' ? COLORS.pinkDeep : '' }}>
-                    <IconHome size={22} />
-                  </button>
-                  <div className="w-8"></div>
-                  {/* ไอคอน All Tasks */}
-                  <button onClick={() => setView('all')} className={`p-1 transition-all ${view === 'all' ? 'scale-110' : 'text-gray-300 opacity-60'}`} style={{ color: view === 'all' ? COLORS.blueDeep : '' }}>
-                    <IconFileText size={22} />
-                  </button>
-                  {/* ปุ่ม + เพิ่มงาน (แสดงเฉพาะ Admin) */}
-                  {/* ✏️ [แก้ได้] สีขอบปุ่ม + — แก้ที่ COLORS.cardBorder */}
-                  {isAdmin && (
-                    <div className="absolute left-1/2 -translate-x-1/2 -top-6">
-                      <button onClick={() => { setEditingTask(null); setShowModal(true); }} className="w-14 h-14 rounded-full text-white flex items-center justify-center shadow-xl shadow-[#9673D2]/50 active:scale-90 transition-transform" style={{ background: `linear-gradient(to bottom right, ${COLORS.textMain}, ${COLORS.textSoft})`, borderWidth: '4px', borderColor: COLORS.cardBorder }}>
-                        <IconPlus size={24} />
-                      </button>
-                    </div>
-                  )}
+              <div className="backdrop-blur-xl rounded-full h-14 flex items-center justify-between px-6 relative" style={{ backgroundColor: `${COLORS.navBarBg}99`, borderWidth: '1px', borderColor: COLORS.cardBorder, boxShadow: '0 8px 32px rgba(212,98,10,0.2)' }}>
+                <button onClick={() => setView('dashboard')} className={`p-1 transition-all ${view === 'dashboard' ? 'scale-110' : 'opacity-40'}`} style={{ color: view === 'dashboard' ? COLORS.pinkDeep : COLORS.textSoft }}>
+                  <IconHome size={22} />
+                </button>
+                <div className="w-8"></div>
+                <button onClick={() => setView('all')} className={`p-1 transition-all ${view === 'all' ? 'scale-110' : 'opacity-40'}`} style={{ color: view === 'all' ? COLORS.blueDeep : COLORS.textSoft }}>
+                  <IconFileText size={22} />
+                </button>
+                {isAdmin && (
+                  <div className="absolute left-1/2 -translate-x-1/2 -top-6">
+                    <button onClick={() => { setEditingTask(null); setShowModal(true); }} className="w-14 h-14 rounded-full text-white flex items-center justify-center active:scale-90 transition-transform" style={{ background: `linear-gradient(to bottom right, ${COLORS.textMain}, ${COLORS.textSoft})`, borderWidth: '4px', borderColor: COLORS.cardBorder, boxShadow: '0 8px 20px rgba(212,98,10,0.4)' }}>
+                      <IconPlus size={24} />
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
 
-            {/* ==========================================
-                🪟 MODAL: เพิ่ม/แก้ไขงาน
-                ========================================== */}
+            {/* MODAL: เพิ่ม/แก้ไขงาน */}
             {showModal && (
               <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/10 backdrop-blur-[2px] animate-fadeIn">
-                {/* ✏️ [แก้ได้] สีพื้นหลัง modal — แก้ที่ COLORS.modalBg, COLORS.cardBorder */}
                 <form onSubmit={handleSaveTask} className="backdrop-blur-xl w-full max-w-xs rounded-[35px] p-6 shadow-2xl animate-slideUp" style={{ backgroundColor: `${COLORS.modalBg}f2`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
-                   {/* ✏️ [แก้ได้] ชื่อ title modal */}
-                   <h3 className="text-sm font-black mb-4 text-center text-gray-800">{editingTask ? 'แก้ไขคิวงาน ✨' : 'เพิ่มคิวใหม่ ✨'}</h3>
-                   <div className="space-y-2 relative">
-                     {isSaving && (
-                        <div className="absolute inset-0 z-50 flex flex-col items-center justify-center rounded-2xl backdrop-blur-sm" style={{ backgroundColor: `${COLORS.modalBg}cc` }}>
-                           <IconLoader size={32} className="animate-spin-slow" style={{ color: COLORS.pinkDeep }} />
-                           {/* ✏️ [แก้ได้] ข้อความ "กำลังบันทึก..." */}
-                           <span className="text-[10px] font-black mt-2 text-gray-500">กำลังบันทึก...</span>
+                  <h3 className="text-sm font-black mb-4 text-center" style={{ color: COLORS.blueDeep }}>{editingTask ? 'แก้ไขคิวงาน ✨' : 'เพิ่มคิวใหม่ ✨'}</h3>
+                  <div className="space-y-2 relative">
+                    {isSaving && (
+                      <div className="absolute inset-0 z-50 flex flex-col items-center justify-center rounded-2xl backdrop-blur-sm" style={{ backgroundColor: `${COLORS.modalBg}cc` }}>
+                        <IconLoader size={32} className="animate-spin-slow" style={{ color: COLORS.pinkDeep }} />
+                        <span className="text-[10px] font-black mt-2" style={{ color: COLORS.textSoft }}>กำลังบันทึก...</span>
+                      </div>
+                    )}
+
+                    <div className="flex justify-end mb-1">
+                      <label className="flex items-center cursor-pointer gap-2 px-3 py-1.5 rounded-full shadow-sm" style={{ backgroundColor: COLORS.buttonBg, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
+                        <span className="text-[10px] font-bold" style={{ color: COLORS.textSoft }}>คิวด่วน 🔥</span>
+                        <div className="relative">
+                          <input type="checkbox" name="priority" value="urgent" defaultChecked={editingTask?.priority === 'urgent'} className="sr-only peer" />
+                          <div className="w-8 h-4 bg-orange-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-orange-400"></div>
                         </div>
-                     )}
-                     
-                     {/* ✏️ [แก้ได้] label checkbox ด่วน */}
-                     {/* ✏️ [แก้ได้] สีพื้นหลัง checkbox — แก้ที่ COLORS.buttonBg */}
-                     <div className="flex justify-end mb-1">
-                       <label className="flex items-center cursor-pointer gap-2 px-3 py-1.5 rounded-full shadow-sm border border-gray-100" style={{ backgroundColor: COLORS.buttonBg }}>
-                         <span className="text-[10px] font-bold text-gray-500">คิวด่วน 🔥</span>
-                         <div className="relative">
-                           <input type="checkbox" name="priority" value="urgent" defaultChecked={editingTask?.priority === 'urgent'} className="sr-only peer" />
-                           <div className={`w-8 h-4 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-[${COLORS.pinkDeep}]`}></div>
-                         </div>
-                       </label>
-                     </div>
+                      </label>
+                    </div>
 
-                     {/* ✏️ [แก้ได้] placeholder ฟอร์ม */}
-                     {/* ✏️ [แก้ได้] สีพื้นหลัง input — แก้ที่ COLORS.cardInner */}
-                     <input name="client" required defaultValue={editingTask?.client || ''} className="w-full p-3.5 rounded-2xl border border-gray-100 outline-none text-[11px] shadow-sm focus:border-[#f4f0fc] transition-all" style={{ backgroundColor: COLORS.cardInner }} placeholder="ชื่อลูกค้า" />
-                     
-                     <div className="flex flex-col gap-2">
-                        {/* datalist ประเภทงาน — option มาจาก taskTypes state */}
-                        <input list="taskTypesList" name="type" required defaultValue={editingTask?.type || ''} className="w-full p-3.5 rounded-2xl font-black text-[10px] outline-none border border-gray-100 shadow-sm" style={{ backgroundColor: COLORS.cardInner }} placeholder="ประเภทงาน" />
-                        <datalist id="taskTypesList">
-                          {taskTypes.map(type => <option key={type} value={type} />)}
-                        </datalist>
+                    <input name="client" required defaultValue={editingTask?.client || ''} className="w-full p-3.5 rounded-2xl outline-none text-[11px] shadow-sm transition-all" style={{ backgroundColor: COLORS.cardInner, borderWidth: '1px', borderColor: COLORS.cardBorder, color: COLORS.textMain }} placeholder="ชื่อลูกค้า" />
 
-                        {/* datalist ช่องทาง — option มาจาก channels state */}
-                        <input list="channelsList" name="channel" required defaultValue={editingTask?.channel || ''} className="w-full p-3.5 rounded-2xl font-black text-[10px] outline-none border border-gray-100 shadow-sm" style={{ backgroundColor: COLORS.cardInner }} placeholder="ช่องทาง" />
-                        <datalist id="channelsList">
-                          {channels.map(ch => <option key={ch} value={ch} />)}
-                        </datalist>
-                     </div>
+                    <div className="flex flex-col gap-2">
+                      <input list="taskTypesList" name="type" required defaultValue={editingTask?.type || ''} className="w-full p-3.5 rounded-2xl font-black text-[10px] outline-none shadow-sm" style={{ backgroundColor: COLORS.cardInner, borderWidth: '1px', borderColor: COLORS.cardBorder, color: COLORS.textMain }} placeholder="ประเภทงาน" />
+                      <datalist id="taskTypesList">
+                        {taskTypes.map(type => <option key={type} value={type} />)}
+                      </datalist>
 
-                     {/* ✏️ [แก้ได้] placeholder textarea รายละเอียด */}
-                     <textarea name="details" rows="2" defaultValue={editingTask?.details || ''} className="w-full p-3.5 rounded-2xl border border-gray-100 outline-none text-[11px] shadow-sm focus:border-[#f4f0fc] transition-all resize-none" style={{ backgroundColor: COLORS.cardInner }} placeholder="รายละเอียดเพิ่มเติม (ถ้ามี)..."></textarea>
-                     
-                     <div className="flex items-center justify-between bg-[#f4f0fc]/30 p-1.5 pl-4 rounded-2xl border border-[#CCAAE6]/50 transition-all hover:bg-[#f4f0fc]/80 hover:shadow-sm group mt-1">
-                       <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider font-black" style={{ color: COLORS.pinkDeep }}>
-                         {/* ✏️ [แก้ได้] label "Deadline" */}
-                         <IconCalendar size={12} className="group-hover:animate-bounce-slow transition-transform" /><span>Deadline</span>
-                       </div>
-                       {/* ✏️ [แก้ได้] สีพื้นหลัง date input — แก้ที่ COLORS.cardInner */}
-                       <input name="deadline" type="date" required defaultValue={editingTask?.deadline || nextQueueDate} className="w-32 p-2.5 rounded-xl border border-[#CCAAE6] outline-none text-[10px] font-black text-[#9673D2] shadow-sm focus:border-[#9673D2] focus:ring-2 focus:ring-[#9673D2]/50 transition-all cursor-pointer active:scale-95 hover:border-[#9673D2]" style={{ backgroundColor: COLORS.cardInner }} />
-                     </div>
-                     
-                     <div className="flex items-center gap-2 mt-3">
-                       {/* ✏️ [แก้ได้] ข้อความปุ่ม Save */}
-                       <button type="submit" className="flex-1 py-3.5 rounded-2xl font-black text-xs text-white shadow-lg active:scale-95 transition-all disabled:opacity-50" style={{ backgroundColor: COLORS.textMain }}>บันทึกคิวงาน</button>
-                       {editingTask && (
-                         <button type="button" onClick={() => setTaskToDelete(editingTask.id)} className="w-12 h-[44px] flex items-center justify-center rounded-2xl bg-red-50 text-red-400 border border-red-100 hover:bg-red-100 active:scale-95 transition-all shadow-sm" title="ลบคิวงาน">
-                           <IconTrash size={18} />
-                         </button>
-                       )}
-                     </div>
-                     {/* ✏️ [แก้ได้] ข้อความปุ่มปิด modal */}
-                     <button type="button" onClick={() => { setShowModal(false); setEditingTask(null); }} className="w-full text-[9px] font-bold text-gray-300 mt-2 uppercase tracking-widest">Close</button>
-                   </div>
+                      <input list="channelsList" name="channel" required defaultValue={editingTask?.channel || ''} className="w-full p-3.5 rounded-2xl font-black text-[10px] outline-none shadow-sm" style={{ backgroundColor: COLORS.cardInner, borderWidth: '1px', borderColor: COLORS.cardBorder, color: COLORS.textMain }} placeholder="ช่องทาง" />
+                      <datalist id="channelsList">
+                        {channels.map(ch => <option key={ch} value={ch} />)}
+                      </datalist>
+                    </div>
+
+                    <textarea name="details" rows="2" defaultValue={editingTask?.details || ''} className="w-full p-3.5 rounded-2xl outline-none text-[11px] shadow-sm resize-none" style={{ backgroundColor: COLORS.cardInner, borderWidth: '1px', borderColor: COLORS.cardBorder, color: COLORS.textMain }} placeholder="รายละเอียดเพิ่มเติม (ถ้ามี)..."></textarea>
+
+                    <div className="flex items-center justify-between p-1.5 pl-4 rounded-2xl border transition-all mt-1" style={{ backgroundColor: '#FFF4DC30', borderColor: `${COLORS.cardBorder}80` }}>
+                      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider font-black" style={{ color: COLORS.pinkDeep }}>
+                        <IconCalendar size={12} /><span>Deadline</span>
+                      </div>
+                      <input name="deadline" type="date" required defaultValue={editingTask?.deadline || nextQueueDate} className="w-32 p-2.5 rounded-xl outline-none text-[10px] font-black shadow-sm transition-all cursor-pointer" style={{ backgroundColor: COLORS.cardInner, borderWidth: '1px', borderColor: COLORS.cardBorder, color: COLORS.textMain }} />
+                    </div>
+
+                    <div className="flex items-center gap-2 mt-3">
+                      <button type="submit" className="flex-1 py-3.5 rounded-2xl font-black text-xs text-white shadow-lg active:scale-95 transition-all" style={{ background: `linear-gradient(to right, ${COLORS.textMain}, ${COLORS.textSoft})` }}>บันทึกคิวงาน</button>
+                      {editingTask && (
+                        <button type="button" onClick={() => setTaskToDelete(editingTask.id)} className="w-12 h-[44px] flex items-center justify-center rounded-2xl bg-red-50 text-red-400 border border-red-100 hover:bg-red-100 active:scale-95 transition-all shadow-sm">
+                          <IconTrash size={18} />
+                        </button>
+                      )}
+                    </div>
+                    <button type="button" onClick={() => { setShowModal(false); setEditingTask(null); }} className="w-full text-[9px] font-bold mt-2 uppercase tracking-widest" style={{ color: COLORS.textSoft, opacity: 0.5 }}>Close</button>
+                  </div>
                 </form>
               </div>
             )}
 
-            {/* ==========================================
-                🔐 MODAL: Login Admin
-                ========================================== */}
+            {/* MODAL: Login */}
             {showAuthModal && (
               <div className="fixed inset-0 z-[110] flex items-center justify-center p-6 bg-black/10 backdrop-blur-[2px] animate-fadeIn">
-                {/* ✏️ [แก้ได้] สีพื้นหลัง modal login — แก้ที่ COLORS.modalBg, COLORS.cardBorder */}
                 <form onSubmit={handleAdminLogin} className="backdrop-blur-xl w-full max-w-xs rounded-[35px] p-6 shadow-2xl animate-slideUp" style={{ backgroundColor: `${COLORS.modalBg}f2`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
-                   {/* ✏️ [แก้ได้] ชื่อ modal Login */}
-                   <h3 className="text-sm font-black mb-4 text-center text-gray-800">เข้าสู่ระบบ Admin</h3>
-                   <div className="space-y-2">
-                     {/* ✏️ [แก้ได้] สีพื้นหลัง input password — แก้ที่ COLORS.cardInner */}
-                     <input type="password" required value={password} onChange={(e) => { setPassword(e.target.value); setAuthError(false); }} className={`w-full p-3.5 rounded-2xl border outline-none text-[11px] shadow-sm transition-all text-center tracking-widest ${authError ? 'border-red-300 focus:border-red-400' : 'border-gray-100 focus:border-[#f4f0fc]'}`} style={{ backgroundColor: COLORS.cardInner }} placeholder="ใส่รหัสผ่าน" disabled={isVerifyingAuth} />
-                     {/* ✏️ [แก้ได้] ข้อความ error รหัสผ่านผิด */}
-                     {authError && <p className="text-red-400 text-[9px] text-center font-bold">รหัสผ่านไม่ถูกต้อง!</p>}
-                     <button type="submit" disabled={isVerifyingAuth} className="w-full h-11 rounded-2xl font-black text-xs mt-3 text-white shadow-lg flex items-center justify-center active:scale-95 transition-all disabled:opacity-70" style={{ backgroundColor: COLORS.pinkDeep }}>
-                        {isVerifyingAuth ? <IconLoader size={16} className="animate-spin-slow" /> : 'Login'}
-                     </button>
-                     <button type="button" onClick={() => { setShowAuthModal(false); setAuthError(false); setPassword(''); }} className="w-full text-[9px] font-bold text-gray-300 mt-1 uppercase tracking-widest" disabled={isVerifyingAuth}>Close</button>
-                   </div>
+                  <h3 className="text-sm font-black mb-4 text-center" style={{ color: COLORS.blueDeep }}>เข้าสู่ระบบ Admin</h3>
+                  <div className="space-y-2">
+                    <input type="password" required value={password} onChange={(e) => { setPassword(e.target.value); setAuthError(false); }} className={`w-full p-3.5 rounded-2xl outline-none text-[11px] shadow-sm transition-all text-center tracking-widest`} style={{ backgroundColor: COLORS.cardInner, borderWidth: '1px', borderColor: authError ? '#f87171' : COLORS.cardBorder, color: COLORS.textMain }} placeholder="ใส่รหัสผ่าน" disabled={isVerifyingAuth} />
+                    {authError && <p className="text-red-400 text-[9px] text-center font-bold">รหัสผ่านไม่ถูกต้อง!</p>}
+                    <button type="submit" disabled={isVerifyingAuth} className="w-full h-11 rounded-2xl font-black text-xs mt-3 text-white shadow-lg flex items-center justify-center active:scale-95 transition-all disabled:opacity-70" style={{ backgroundColor: COLORS.pinkDeep }}>
+                      {isVerifyingAuth ? <IconLoader size={16} className="animate-spin-slow" /> : 'Login'}
+                    </button>
+                    <button type="button" onClick={() => { setShowAuthModal(false); setAuthError(false); setPassword(''); }} className="w-full text-[9px] font-bold mt-1 uppercase tracking-widest" style={{ color: COLORS.textSoft, opacity: 0.5 }} disabled={isVerifyingAuth}>Close</button>
+                  </div>
                 </form>
               </div>
             )}
 
-            {/* ==========================================
-                🖼️ MODAL: เปลี่ยนรูปโปรไฟล์
-                ========================================== */}
+            {/* MODAL: เปลี่ยนรูปโปรไฟล์ */}
             {showImageModal && (
               <div className="fixed inset-0 z-[120] flex items-center justify-center p-6 bg-black/10 backdrop-blur-[2px] animate-fadeIn">
-                {/* ✏️ [แก้ได้] สีพื้นหลัง modal เปลี่ยนรูป — แก้ที่ COLORS.modalBg, COLORS.cardBorder */}
-                <form onSubmit={(e) => { 
-                    e.preventDefault(); 
-                    if (tempImageUrl) { 
-                        let finalUrl = tempImageUrl;
-                        // แปลง Google Drive share link → direct image URL
-                        const match = finalUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || finalUrl.match(/id=([a-zA-Z0-9_-]+)/) || finalUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-                        if (match && match[1]) {
-                            finalUrl = `https://lh3.googleusercontent.com/d/${match[1]}`;
-                        }
-                        setProfileImage(finalUrl); 
-                        fetchAPI({ action: 'saveProfileImage', imageUrl: finalUrl });
-                    } 
-                    setShowImageModal(false); 
-                    setTempImageUrl(''); 
+                <form onSubmit={(e) => {
+                  e.preventDefault();
+                  if (tempImageUrl) {
+                    let finalUrl = tempImageUrl;
+                    const match = finalUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || finalUrl.match(/id=([a-zA-Z0-9_-]+)/) || finalUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                    if (match && match[1]) finalUrl = `https://lh3.googleusercontent.com/d/${match[1]}`;
+                    setProfileImage(finalUrl);
+                    fetchAPI({ action: 'saveProfileImage', imageUrl: finalUrl });
+                  }
+                  setShowImageModal(false); setTempImageUrl('');
                 }} className="backdrop-blur-xl w-full max-w-xs rounded-[35px] p-6 shadow-2xl animate-slideUp" style={{ backgroundColor: `${COLORS.modalBg}f2`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
-                   {/* ✏️ [แก้ได้] ชื่อ modal เปลี่ยนรูปโปรไฟล์ */}
-                   <h3 className="text-sm font-black mb-4 text-center text-gray-800">เปลี่ยนรูปโปรไฟล์ 🐰</h3>
-                   <div className="space-y-2">
-                     {/* ✏️ [แก้ได้] สีพื้นหลัง input URL — แก้ที่ COLORS.cardInner */}
-                     <input type="url" required value={tempImageUrl} onChange={(e) => setTempImageUrl(e.target.value)} className="w-full p-3.5 rounded-2xl border border-gray-100 outline-none text-[11px] shadow-sm focus:border-[#f4f0fc] transition-all text-center" style={{ backgroundColor: COLORS.cardInner }} placeholder="วางลิงก์รูปภาพ Google Drive ที่นี่..." />
-                     <button type="submit" className="w-full py-3.5 rounded-2xl font-black text-xs mt-3 text-white shadow-lg active:scale-95 transition-all" style={{ backgroundColor: COLORS.pinkDeep }}>Save Image</button>
-                     <button type="button" onClick={() => { setShowImageModal(false); setTempImageUrl(''); }} className="w-full text-[9px] font-bold text-gray-300 mt-1 uppercase tracking-widest">Close</button>
-                   </div>
+                  <h3 className="text-sm font-black mb-4 text-center" style={{ color: COLORS.blueDeep }}>เปลี่ยนรูปโปรไฟล์ 🍊</h3>
+                  <div className="space-y-2">
+                    <input type="url" required value={tempImageUrl} onChange={(e) => setTempImageUrl(e.target.value)} className="w-full p-3.5 rounded-2xl outline-none text-[11px] shadow-sm transition-all text-center" style={{ backgroundColor: COLORS.cardInner, borderWidth: '1px', borderColor: COLORS.cardBorder }} placeholder="วางลิงก์รูปภาพ Google Drive ที่นี่..." />
+                    <button type="submit" className="w-full py-3.5 rounded-2xl font-black text-xs mt-3 text-white shadow-lg active:scale-95 transition-all" style={{ backgroundColor: COLORS.pinkDeep }}>Save Image</button>
+                    <button type="button" onClick={() => { setShowImageModal(false); setTempImageUrl(''); }} className="w-full text-[9px] font-bold mt-1 uppercase tracking-widest" style={{ color: COLORS.textSoft, opacity: 0.5 }}>Close</button>
+                  </div>
                 </form>
               </div>
             )}
 
-            {/* ==========================================
-                🖼️ MODAL: เปลี่ยนแบนเนอร์ร้าน
-                ========================================== */}
+            {/* MODAL: เปลี่ยนแบนเนอร์ */}
             {showBannerModal && (
               <div className="fixed inset-0 z-[120] flex items-center justify-center p-6 bg-black/10 backdrop-blur-[2px] animate-fadeIn">
-                {/* ✏️ [แก้ได้] สีพื้นหลัง modal แบนเนอร์ — แก้ที่ COLORS.modalBg, COLORS.cardBorder */}
-                <form onSubmit={(e) => { 
-                    e.preventDefault(); 
-                    if (tempBannerUrl) { 
-                        let finalUrl = tempBannerUrl;
-                        // แปลง Google Drive share link → direct image URL
-                        const match = finalUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || finalUrl.match(/id=([a-zA-Z0-9_-]+)/) || finalUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-                        if (match && match[1]) {
-                            finalUrl = `https://lh3.googleusercontent.com/d/${match[1]}`;
-                        }
-                        setBannerImage(finalUrl); 
-                        toggleBannerVisibility(true);
-                        fetchAPI({ action: 'saveBannerImage', imageUrl: finalUrl });
-                    } 
-                    setShowBannerModal(false); 
-                    setTempBannerUrl(''); 
+                <form onSubmit={(e) => {
+                  e.preventDefault();
+                  if (tempBannerUrl) {
+                    let finalUrl = tempBannerUrl;
+                    const match = finalUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || finalUrl.match(/id=([a-zA-Z0-9_-]+)/) || finalUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                    if (match && match[1]) finalUrl = `https://lh3.googleusercontent.com/d/${match[1]}`;
+                    setBannerImage(finalUrl);
+                    toggleBannerVisibility(true);
+                    fetchAPI({ action: 'saveBannerImage', imageUrl: finalUrl });
+                  }
+                  setShowBannerModal(false); setTempBannerUrl('');
                 }} className="backdrop-blur-xl w-full max-w-xs rounded-[35px] p-6 shadow-2xl animate-slideUp" style={{ backgroundColor: `${COLORS.modalBg}f2`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
-                   {/* ✏️ [แก้ได้] ชื่อ modal เปลี่ยนแบนเนอร์ */}
-                   <h3 className="text-sm font-black mb-4 text-center text-gray-800">เปลี่ยนแบนเนอร์</h3>
-                   <div className="space-y-2">
-                     {/* ✏️ [แก้ได้] สีพื้นหลัง input URL — แก้ที่ COLORS.cardInner */}
-                     <input type="url" required value={tempBannerUrl} onChange={(e) => setTempBannerUrl(e.target.value)} className="w-full p-3.5 rounded-2xl border border-gray-100 outline-none text-[11px] shadow-sm focus:border-[#f4f0fc] transition-all text-center" style={{ backgroundColor: COLORS.cardInner }} placeholder="วางลิงก์รูปภาพ Google Drive..." />
-                     <button type="submit" className="w-full py-3.5 rounded-2xl font-black text-xs mt-3 text-white shadow-lg active:scale-95 transition-all" style={{ backgroundColor: COLORS.orangeDeep }}>Save Banner</button>
-                     <button type="button" onClick={() => { setShowBannerModal(false); setTempBannerUrl(''); }} className="w-full text-[9px] font-bold text-gray-300 mt-1 uppercase tracking-widest">Close</button>
-                   </div>
+                  <h3 className="text-sm font-black mb-4 text-center" style={{ color: COLORS.blueDeep }}>เปลี่ยนแบนเนอร์</h3>
+                  <div className="space-y-2">
+                    <input type="url" required value={tempBannerUrl} onChange={(e) => setTempBannerUrl(e.target.value)} className="w-full p-3.5 rounded-2xl outline-none text-[11px] shadow-sm transition-all text-center" style={{ backgroundColor: COLORS.cardInner, borderWidth: '1px', borderColor: COLORS.cardBorder }} placeholder="วางลิงก์รูปภาพ Google Drive..." />
+                    <button type="submit" className="w-full py-3.5 rounded-2xl font-black text-xs mt-3 text-white shadow-lg active:scale-95 transition-all" style={{ backgroundColor: COLORS.orangeDeep }}>Save Banner</button>
+                    <button type="button" onClick={() => { setShowBannerModal(false); setTempBannerUrl(''); }} className="w-full text-[9px] font-bold mt-1 uppercase tracking-widest" style={{ color: COLORS.textSoft, opacity: 0.5 }}>Close</button>
+                  </div>
                 </form>
               </div>
             )}
 
-            {/* ==========================================
-                🗑️ MODAL: ยืนยันการลบงาน
-                ========================================== */}
+            {/* MODAL: ยืนยันการลบ */}
             {taskToDelete && (
               <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/20 backdrop-blur-[2px] animate-fadeIn">
-                {/* ✏️ [แก้ได้] สีพื้นหลัง modal ลบ — แก้ที่ COLORS.modalBg, COLORS.cardBorder */}
                 <div className="backdrop-blur-xl w-full max-w-[260px] rounded-[30px] p-6 shadow-2xl animate-slideUp text-center" style={{ backgroundColor: `${COLORS.modalBg}f2`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
                   <div className="w-14 h-14 rounded-full bg-red-50 text-red-400 flex items-center justify-center mx-auto mb-3 shadow-sm border border-red-100">
-                     <IconTrash size={26} />
+                    <IconTrash size={26} />
                   </div>
-                  {/* ✏️ [แก้ได้] ข้อความยืนยันการลบ */}
-                  <h3 className="text-[14px] font-black mb-1 text-gray-800">ยืนยันการลบ?</h3>
-                  <p className="text-[10px] font-bold text-gray-500 mb-5">คุณต้องการลบคิวงานนี้ใช่หรือไม่<br/>(ไม่สามารถกู้คืนได้)</p>
-                  
+                  <h3 className="text-[14px] font-black mb-1" style={{ color: COLORS.blueDeep }}>ยืนยันการลบ?</h3>
+                  <p className="text-[10px] font-bold mb-5" style={{ color: COLORS.textSoft, opacity: 0.7 }}>คุณต้องการลบคิวงานนี้ใช่หรือไม่<br/>(ไม่สามารถกู้คืนได้)</p>
                   <div className="flex gap-2">
-                    {/* ✏️ [แก้ได้] ข้อความปุ่ม "ยกเลิก" และ "ลบข้อมูล" */}
                     <button onClick={() => setTaskToDelete(null)} className="flex-1 py-3 rounded-2xl font-black text-[10px] text-gray-500 bg-gray-100 hover:bg-gray-200 active:scale-95 transition-all shadow-sm">ยกเลิก</button>
                     <button onClick={executeDeleteTask} className="flex-1 py-3 rounded-2xl font-black text-[10px] text-white bg-red-400 hover:bg-red-500 active:scale-95 transition-all shadow-sm">ลบข้อมูล</button>
                   </div>
                 </div>
               </div>
             )}
-
           </div>
-          
-          {/* ==========================================
-              🎬 CSS Animations
-              ==========================================
-              ✏️ [แก้ได้] ปรับ animation ต่าง ๆ ที่นี่:
-              - float / float-reverse: เมฆและ blob เคลื่อนที่
-              - breathe: ดอกไม้หายใจ
-              - float-particle-1/2/3: จุดลอยรอบดอกไม้
-              - spin-slow: หมุนช้า (ไอคอน Loader ตอน doing)
-              - slideUp / fadeIn: animation modal
-              - text-wave: ชื่อแอปใน header
-          */}
+
           <style>{`
             @keyframes float { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(25px, -15px); } }
             @keyframes float-reverse { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-25px, 15px); } }

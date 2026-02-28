@@ -245,16 +245,16 @@
             <div className="absolute top-[30%] -right-4 text-[10px] animate-float-particle-1 drop-shadow-sm" style={{ animationDelay: '1.2s' }}>💛</div>
           </div>
         )}
-        <div className="absolute left-2 top-3 bottom-3 w-1 rounded-full shadow-sm z-10" style={{ backgroundColor: task.channel === 'LINE' ? '#ffffff' : task.channel === 'FB' || task.channel === 'FACEBOOK' ? '#ffffff' : task.channel === 'IG' ? '#ffffff' : COLORS.purpleDeep }}></div>
+        <div className="absolute left-2 top-3 bottom-3 w-1 rounded-full shadow-sm z-10" style={{ backgroundColor: task.channel === 'LINE' ? '#FEF0D0' : task.channel === 'FB' || task.channel === 'FACEBOOK' ? '#FEF0D0' : task.channel === 'IG' ? '#FEF0D0' : COLORS.purpleDeep }}></div>
         <div className="pl-3 pr-1 relative z-10">
           <div className="flex justify-between items-start mb-1">
             <div className="flex items-center gap-2 min-w-0">
               <span className="font-bold text-base truncate" style={{ color: COLORS.textMain }}>{task.client}</span>
               <span className={`text-[7px] px-1.5 py-0.5 rounded-md font-black uppercase border ${
                 task.channel === 'LINE' ? 'text-[#5a8a30] bg-[#ffffff]/50 border-[#b8d394]/40' :
-                task.channel === 'FB' || task.channel === 'FACEBOOK' ? 'text-[#2A5C82] bg-[#ffffff]/10 border-[#6CA9D6]/20' :
-                task.channel === 'IG' ? 'text-[#A38A30] bg-[#FCF6DE]/50 border-[#D4B856]/30' :
-                task.channel === 'DISCORD' || task.channel === 'Discord' ? 'text-[#7b55a0] bg-[#ffffff]/10 border-[#a76eaf]/20' :
+                task.channel === 'FB' || task.channel === 'FACEBOOK' ? 'text-[#2A5C82] bg-[#ffffff]/50 border-[#6CA9D6]/80' :
+                task.channel === 'IG' ? 'text-[#A38A30] bg-[#FCF6DE]/50 border-[#D4B856]/80' :
+                task.channel === 'DISCORD' || task.channel === 'Discord' ? 'text-[#7b55a0] bg-[#ffffff]/50 border-[#a76eaf]/80' :
                 'bg-orange-50/50 text-orange-300 border-orange-100'
               }`}>{task.channel}</span>
               {task.priority === 'urgent' && <span className="text-[9px] font-bold animate-pulse px-2 py-0.5 rounded-full shadow-sm" style={{ color: COLORS.pinkDeep, backgroundColor: COLORS.buttonBg }}>{'\u{1F525}'} ด่วน</span>}
@@ -866,5 +866,6 @@
   </script>
 </body>
 </html>
+
 
 

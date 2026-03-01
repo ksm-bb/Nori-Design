@@ -486,33 +486,34 @@
       const doneToday = useMemo(() => todayTasks.filter(t => t.status === 'done').length, [todayTasks]);
       const progress = todayTasks.length === 0 ? 0 : Math.round((doneToday / todayTasks.length) * 100);
 
-      const nextQueueDate = useMemo(() => {
-        if (selectedNextDate) return selectedNextDate;
-        let checkDate = new Date();
-        for (let i = 0; i < 365; i++) {
-          const y = checkDate.getFullYear();
-          const m = String(checkDate.getMonth() + 1).padStart(2, '0');
-          const d = String(checkDate.getDate()).padStart(2, '0');
-          const dateStr = `${y}-${m}-${d}`;
-          if (tasks.filter(t => t.deadline === dateStr).length === 0) return dateStr;
-          checkDate.setDate(checkDate.getDate() + 1);
-        }
-        return today;
-      }, [tasks, selectedNextDate]);
+     const nextQueueDate = useMemo(() => {
+  if (selectedNextDate) return selectedNextDate;
+  
+  // 1. ป้องกันระบบพังหาก tasks ยังโหลดไม่เสร็จ
+  if (!tasks || !Array.isArray(tasks)) return null; 
 
-      const waitingCount = useMemo(() => tasks.filter(t => t.status !== 'done').length, [tasks]);
+  // 2. สร้าง Set เก็บวันที่ที่ "ไม่ว่าง" (มีงานอยู่แล้ว) เพื่อให้เช็คได้เร็วขึ้น
+  const busyDates = new Set(tasks.map(t => t.deadline));
 
-      const toggleStatus = useCallback((e, id) => {
-        e.stopPropagation();
-        setTasks(prev => prev.map(t => {
-          if (t.id === id) {
-            const newStatus = t.status === 'done' ? 'todo' : 'done';
-            fetchAPI({ action: 'updateTaskStatus', taskId: id, newStatus });
-            return { ...t, status: newStatus };
-          }
-          return t;
-        }));
-      }, []);
+  let checkDate = new Date();
+  for (let i = 0; i < 365; i++) {
+    const y = checkDate.getFullYear();
+    const m = String(checkDate.getMonth() + 1).padStart(2, '0');
+    const d = String(checkDate.getDate()).padStart(2, '0');
+    const dateStr = `${y}-${m}-${d}`;
+
+    // เช็คว่าถ้าวันที่นี้ "ไม่มี" ใน Set (แปลว่าว่าง) ให้คืนค่าได้เลย
+    if (!busyDates.has(dateStr)) {
+      return dateStr;
+    }
+    checkDate.setDate(checkDate.getDate() + 1);
+  }
+
+  // 3. กำหนดค่า fallback เป็นวันนี้แบบชัดเจนแทนการเรียกใช้ตัวแปรลอยๆ
+  const fallback = new Date();
+  return `${fallback.getFullYear()}-${String(fallback.getMonth() + 1).padStart(2, '0')}-${String(fallback.getDate()).padStart(2, '0')}`;
+
+}, [tasks, selectedNextDate]);
 
       const toggleDoing = useCallback((e, id) => {
         e.stopPropagation();
@@ -895,6 +896,7 @@
   </script>
 </body>
 </html>
+
 
 
 

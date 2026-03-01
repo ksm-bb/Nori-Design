@@ -37,34 +37,35 @@
     // 🎨 COLORS — Nori Design Orange Tone
     // ==========================================
     const COLORS = {
-      blue: '#FAD79A',
-      pink: '#FBBC6A',
-      purple: '#F5A623',
-      orange: '#FDE8C0',
-      bg: '#FEF0D0',
-      white: '#F5A623',
-      textMain: '#D4620A',
-      textSoft: '#E07B20',
-      pinkDeep: '#D4620A',
-      blueDeep: '#B84E08',
-      purpleDeep: '#D4620A',
-      orangeDeep: '#E07B20',
-      cardBg: '#FDDBA0',
-      cardBgDone: '#FAC86A',
-      cardWhite: '#FFFAF0',
-      cardBorder: '#F5C070',
-      cardInner: '#FFF8EE',
-      cloudWhite: '#FFF4DC',
-      modalBg: '#FFFAF2',
-      navBarBg: '#FFF4DC',
-      profileBorder: '#F5A623',
-      buttonBg: '#FFF4DC',
-      dividerColor: '#F5C070',
-      emptyStateBg: '#FFF4DC',
-      calendarBg: '#FFF8EE',
-      searchInputBg: '#FFF8EE',
-      filterBarBg: '#FFF4DC',
-      bannerOverlayBg: '#FFF4DC',
+      blue: '#FAD79A',       // blob พื้นหลัง (top-left) — ส้มอ่อนอมทอง
+      pink: '#FBBC6A',       // blob พื้นหลัง (กลาง) — ส้มทอง
+      purple: '#F5A623',     // blob พื้นหลัง (ขวา) — ส้มทอง
+      orange: '#FDE8C0',     // พื้น NEXT QUEUE section — ครีมส้มอ่อน
+      bg: '#FEF0D0',         // ⭐ สีพื้นหลังทั้งเพจ — ครีมอบอุ่น
+      white: '#F5A623',      // border accent — ส้มทอง
+      textMain: '#D4620A',   // ⭐ สีหลักข้อความ/ปุ่ม — ส้มเข้ม
+      textSoft: '#E07B20',   // สีข้อความรอง — ส้มกลาง
+      pinkDeep: '#D4620A',   // accent เข้ม (ปุ่ม, badge) — ส้มเข้ม
+      blueDeep: '#B84E08',   // accent เข้ม (title, icon) — น้ำตาลส้ม
+      purpleDeep: '#D4620A', // accent เข้ม (label) — ส้มเข้ม
+      orangeDeep: '#E07B20', // NEXT QUEUE label — ส้มกลาง
+      cardBg: '#FDDBA0',     // ⭐ การ์ดงาน (todo/doing) — ส้มครีม
+      cardBgDone: '#FAC86A', // ⭐ การ์ดงาน (done) — ส้มทองเข้มขึ้น
+
+      cardWhite: '#FFFAF0',      // ⭐ พื้นหลังการ์ดหลัก — ขาวครีม
+      cardBorder: '#F5C070',     // ⭐ ขอบการ์ด — ส้มอ่อน
+      cardInner: '#FFF8EE',      // ⭐ พื้นหลังภายในการ์ด — ขาวครีมอบอุ่น
+      cloudWhite: '#FFF4DC',     // ⭐ ก้อนเมฆ — ครีมส้ม
+      modalBg: '#FFFAF2',        // ⭐ พื้นหลัง modal — ขาวส้มอ่อน
+      navBarBg: '#FFF4DC',       // ⭐ Navigation Bar — ครีมส้ม
+      profileBorder: '#F5A623',  // ⭐ ขอบรูปโปรไฟล์ — ส้มทอง
+      buttonBg: '#FFF4DC',       // ⭐ ปุ่มต่าง ๆ — ครีมส้ม
+      dividerColor: '#F5C070',   // ⭐ เส้นแบ่ง — ส้มอ่อน
+      emptyStateBg: '#FFF4DC',   // ⭐ empty state — ครีมส้ม
+      calendarBg: '#FFF8EE',     // ⭐ ปฏิทิน — ขาวครีม
+      searchInputBg: '#FFF8EE',  // ⭐ ช่องค้นหา — ขาวครีม
+      filterBarBg: '#FFF4DC',    // ⭐ แถบ filter — ครีมส้ม
+      bannerOverlayBg: '#FFF4DC',// ⭐ ปุ่มบนแบนเนอร์ — ครีมส้ม
     };
 
     const FluffyCloud = React.memo(({ top, left, right, bottom, scale = 1, opacity = 0.7, delay = '0s', reverse = false }) => (
@@ -132,47 +133,11 @@
       </div>
     ));
 
-    // ==========================================
-    // CompactStats Component (defined before App)
-    // ==========================================
-    const CompactStats = React.memo(({ isAdmin, selectedNextDate, nextQueueDate, handleSetManualDate, waitingCount }) => {
-      const formatDate = (dateStr) => {
-        if (!dateStr) return '—';
-        const d = new Date(dateStr + 'T00:00:00');
-        return d.toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit', year: '2-digit' });
-      };
-
-      return (
-        <div className="backdrop-blur-sm rounded-[28px] p-3 flex flex-col justify-between shadow-lg shadow-[#D4620A]/20 h-full relative overflow-hidden" style={{ backgroundColor: `${COLORS.cardWhite}cc`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
-          <div className="absolute top-2 left-3 text-[8px] font-black uppercase tracking-tighter opacity-70" style={{ color: COLORS.purpleDeep }}>NEXT QUEUE</div>
-          <div className="flex flex-col mt-5 gap-1">
-            <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-xl" style={{ backgroundColor: `${COLORS.orange}99` }}>
-              <IconCalendar size={12} style={{ color: COLORS.orangeDeep }} />
-              <span className="text-[11px] font-black" style={{ color: COLORS.orangeDeep }}>{formatDate(nextQueueDate)}</span>
-            </div>
-            {isAdmin && (
-              <input
-                type="date"
-                value={selectedNextDate}
-                onChange={(e) => handleSetManualDate(e.target.value)}
-                className="w-full px-2 py-1 rounded-xl outline-none text-[9px] font-bold"
-                style={{ backgroundColor: `${COLORS.cardInner}99`, borderWidth: '1px', borderColor: `${COLORS.cardBorder}80`, color: COLORS.textSoft }}
-              />
-            )}
-          </div>
-          <div className="flex items-center gap-1.5 mt-1">
-            <div className="flex items-center gap-1 px-2 py-1 rounded-lg" style={{ backgroundColor: `${COLORS.buttonBg}99`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
-              <IconClock size={10} style={{ color: COLORS.pinkDeep }} />
-              <span className="text-[9px] font-black" style={{ color: COLORS.pinkDeep }}>{waitingCount} งานรอ</span>
-            </div>
-          </div>
-        </div>
-      );
-    });
-
-    const ProgressFlower = React.memo(({ progress, todayTasksLength, doneToday, triggerFlowerBounce, isBouncing }) => {
+   const ProgressFlower = React.memo(({ progress, todayTasksLength, doneToday, triggerFlowerBounce, isBouncing }) => {
       const bloomScale = Math.max(0.2, progress / 100);
       const isFullBloom = progress === 100 && todayTasksLength > 0;
+      
+      // สร้างองศาสำหรับกลีบดอกทานตะวันอวบๆ 8 กลีบ
       const petals = Array.from({ length: 8 }).map((_, i) => i * 45);
 
       return (
@@ -188,6 +153,7 @@
             )}
             <svg viewBox="0 0 100 100" className="w-20 h-20 overflow-visible">
               <defs>
+                {/* สร้างลวดลายขีดตารางแนวทแยง (Crosshatch) สำหรับเกสรเมล็ดทานตะวัน */}
                 <pattern id="seedPattern" x="0" y="0" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
                   <line x1="0" y1="0" x2="0" y2="3" stroke="#6D4C41" strokeWidth="0.8" opacity="0.6" />
                   <line x1="0" y1="0" x2="3" y2="0" stroke="#6D4C41" strokeWidth="0.8" opacity="0.6" />
@@ -195,26 +161,40 @@
               </defs>
               <g transform="translate(50, 50)">
                 <g className="animate-breathe">
+                  {/* ปรับสเกลกลับมาปกติเพื่อไม่ให้ดอกใหญ่เกินไป */}
                   <g transform={`scale(${bloomScale})`} className="transition-transform duration-1000 cubic-bezier(0.34, 1.56, 0.64, 1)">
                     <g transform="translate(-50, -50)">
+                      
+                      {/* กลีบดอกทานตะวันอวบๆ (8 กลีบ) สีเหลืองทองนุ่มนวล */}
                       {petals.map((angle, i) => (
-                        <path
-                          key={i}
+                        <path 
+                          key={i} 
                           d="M 50 12 C 60 12, 65 24, 65 35 C 65 48, 60 54, 50 50 C 40 54, 35 48, 35 35 C 35 24, 40 12, 50 12 Z"
-                          fill="#F5D64C"
+                          fill="#F5D64C" 
                           transform={`rotate(${angle} 50 50)`}
                           className="transition-all duration-700"
                         />
                       ))}
+                      
+                      {/* เกสรดอกทานตะวันสีน้ำตาลช็อกโกแลตหน้านุ่ม */}
                       <circle cx="50" cy="50" r="20" fill="#8D6E63" className="transition-all duration-700" />
+                      
+                      {/* วางลายขีดตารางเมล็ดทานตะวันทับลงไปบนเกสร */}
                       <circle cx="50" cy="50" r="19" fill="url(#seedPattern)" className="transition-all duration-700" />
+
+                      {/* ใบหน้าขี้อ้อนเวลางานเสร็จ 100% */}
                       {isFullBloom && (
                         <g transform="translate(50, 50)" className="animate-fade-in">
+                          {/* ตาจุดกลมโตสีน้ำตาลเข้ม พร้อมแววตาวิ้งๆ */}
                           <circle cx="-6.5" cy="-3.5" r="3" fill="#4E342E" />
                           <circle cx="6.5" cy="-3.5" r="3" fill="#4E342E" />
                           <circle cx="-7.5" cy="-4.5" r="0.8" fill="#FFF8EE" />
                           <circle cx="5.5" cy="-4.5" r="0.8" fill="#FFF8EE" />
+                          
+                          {/* ปากยิ้มกว้างนิดนึง */}
                           <path d="M -2.5 2 Q 0 5 2.5 2" fill="none" stroke="#4E342E" strokeWidth="1.8" strokeLinecap="round" />
+                          
+                          {/* แก้มชมพูพีชแบบเขินอาย */}
                           <ellipse cx="-9.5" cy="2.5" rx="3.5" ry="2" fill="#FFCDD2" opacity="0.9"/>
                           <ellipse cx="9.5" cy="2.5" rx="3.5" ry="2" fill="#FFCDD2" opacity="0.9"/>
                         </g>
@@ -226,6 +206,7 @@
             </svg>
           </div>
           <div className="-mt-2 flex items-center gap-1 px-2 py-0.5 rounded-full z-10" style={{ backgroundColor: `${COLORS.buttonBg}99`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
+            {/* ปรับขนาดตัวเลขตรงนี้เป็น text-[10px] */}
             <span className="text-[8px] font-black" style={{ color: COLORS.purpleDeep }}>{progress}%</span>
             <div className="w-1 h-1 rounded-full bg-[#F5A623]"></div>
             <span className="text-[8px] font-bold text-orange-300 uppercase">{doneToday} / {todayTasksLength} งาน</span>
@@ -233,6 +214,47 @@
         </div>
       );
     });
+    const CompactStats = React.memo(({ isAdmin, selectedNextDate, nextQueueDate, handleSetManualDate, waitingCount }) => (
+      <div className="backdrop-blur-sm rounded-[28px] p-1 shadow-lg shadow-[#D4620A]/20 h-full flex overflow-hidden relative group transition-all" style={{ backgroundColor: `${COLORS.cardWhite}cc`, borderWidth: '1px', borderColor: COLORS.cardBorder }}>
+        <div className={`flex-1 flex flex-col justify-center items-center p-2 relative rounded-l-[24px] transition-colors overflow-hidden ${isAdmin ? 'hover:bg-orange-50/50 cursor-pointer' : ''}`} style={{ backgroundColor: `${COLORS.orange}66` }}>
+          {isAdmin && (
+            <input type="date" className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10" value={selectedNextDate || nextQueueDate} onChange={(e) => handleSetManualDate(e.target.value)} />
+          )}
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-md text-[7px] font-black shadow-sm border border-[#F5A623] uppercase tracking-wider whitespace-nowrap" style={{ color: COLORS.orangeDeep, backgroundColor: COLORS.buttonBg }}>NEXT QUEUE</div>
+
+          <div className="flex flex-col items-center mt-1 relative z-0 pointer-events-none">
+            <span className="text-3xl font-black leading-none tracking-tighter" style={{ color: COLORS.textMain }}>{new Date(nextQueueDate).getDate()}</span>
+            <span className="text-[8px] font-black opacity-80 uppercase mt-0.5" style={{ color: COLORS.orangeDeep }}>{new Date(nextQueueDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+          </div>
+
+          {isAdmin && selectedNextDate && (
+            <button
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleSetManualDate(''); }}
+              className="absolute bottom-1.5 left-1/2 -translate-x-1/2 z-20 px-2.5 py-0.5 rounded-md text-[7px] font-black shadow-sm border border-[#F5A623] hover:bg-orange-50 active:scale-90 transition-all"
+              style={{ color: COLORS.pinkDeep, backgroundColor: COLORS.buttonBg }}
+            >
+              AUTO
+            </button>
+          )}
+        </div>
+
+        <div className="my-4 rounded-full" style={{ width: '1px', backgroundColor: `${COLORS.dividerColor}99` }}></div>
+
+        <div className="flex-1 flex flex-col justify-center items-center p-2 relative">
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-md text-[7px] font-black shadow-sm border border-[#F5A623] uppercase tracking-wider whitespace-nowrap z-10" style={{ color: COLORS.blueDeep, backgroundColor: COLORS.buttonBg }}>จำนวนคิวก่อนหน้า</div>
+
+          <div className="relative mt-5 flex flex-col items-center">
+            <div className="relative">
+              <div className="absolute inset-0 blur-lg rounded-full opacity-40 scale-125" style={{ backgroundColor: COLORS.blue }}></div>
+              <div className="w-11 h-11 rounded-full flex flex-col items-center justify-center shadow-[inset_0_2px_8px_rgba(0,0,0,0.02)] relative z-10" style={{ backgroundColor: COLORS.cardInner, borderWidth: '2px', borderColor: COLORS.blue }}>
+                <span className="text-xl font-black leading-none" style={{ color: COLORS.blueDeep }}>{waitingCount}</span>
+              </div>
+            </div>
+            <span className="text-[8px] font-black opacity-60 uppercase mt-1.5 relative z-10" style={{ color: COLORS.blueDeep }}>คิว</span>
+          </div>
+        </div>
+      </div>
+    ));
 
     const TaskCard = React.memo(({ task, isAdmin, onEdit, onToggleDoing, onToggleStatus }) => (
       <div onClick={() => isAdmin && onEdit(task)} className={`relative rounded-[22px] p-3 transition-all shadow-sm group backdrop-blur-sm ${isAdmin ? 'active:scale-[0.97] cursor-pointer' : ''}`}
@@ -464,24 +486,21 @@
       const doneToday = useMemo(() => todayTasks.filter(t => t.status === 'done').length, [todayTasks]);
       const progress = todayTasks.length === 0 ? 0 : Math.round((doneToday / todayTasks.length) * 100);
 
-      const waitingCount = useMemo(() => tasks.filter(t => t.status !== 'done').length, [tasks]);
-
       const nextQueueDate = useMemo(() => {
         if (selectedNextDate) return selectedNextDate;
-        if (!tasks || !Array.isArray(tasks)) return null;
-        const busyDates = new Set(tasks.map(t => t.deadline));
         let checkDate = new Date();
         for (let i = 0; i < 365; i++) {
           const y = checkDate.getFullYear();
           const m = String(checkDate.getMonth() + 1).padStart(2, '0');
           const d = String(checkDate.getDate()).padStart(2, '0');
           const dateStr = `${y}-${m}-${d}`;
-          if (!busyDates.has(dateStr)) return dateStr;
+          if (tasks.filter(t => t.deadline === dateStr).length === 0) return dateStr;
           checkDate.setDate(checkDate.getDate() + 1);
         }
-        const fallback = new Date();
-        return `${fallback.getFullYear()}-${String(fallback.getMonth() + 1).padStart(2, '0')}-${String(fallback.getDate()).padStart(2, '0')}`;
+        return today;
       }, [tasks, selectedNextDate]);
+
+      const waitingCount = useMemo(() => tasks.filter(t => t.status !== 'done').length, [tasks]);
 
       const toggleStatus = useCallback((e, id) => {
         e.stopPropagation();
@@ -876,3 +895,12 @@
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
